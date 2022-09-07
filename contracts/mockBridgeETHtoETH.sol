@@ -33,7 +33,7 @@ contract MockOptimismBridge {
     function payoutOptimismETH() public {
         require(goerliBridgeInstance.optimismLockedETH(msg.sender)  > optimismBridgedETH[msg.sender],"MSG.VALUE_MUST_BE_GREATER_THAN_0.");
         uint sendETH = goerliBridgeInstance.optimismLockedETH(msg.sender)- optimismBridgedETH[msg.sender];
-        optimismBridgedETH[msg.sender] = goerliBridgeInstance.optimismLockedETH(msg.sender)- optimismBridgedETH[msg.sender];
+        optimismBridgedETH[msg.sender] += sendETH;
         payable(msg.sender).transfer(sendETH);
     }
 
