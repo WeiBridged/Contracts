@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.16;
 
-contract goerliBridge {
+contract GoerliBridge {
 
     mapping(address => uint) public optimismLockedETH;
 
@@ -18,11 +18,11 @@ contract MockOptimismBridge {
 
     mapping(address => uint) public optimismBridgedETH;
 
-    goerliBridge goerliBridgeInstance;
+    GoerliBridge goerliBridgeInstance;
 
     constructor(address _token) {
         Owner = msg.sender;
-        goerliBridgeInstance = goerliBridge(_token); //ERC20 token address goes here.
+        goerliBridgeInstance = GoerliBridge(_token); //ERC20 token address goes here.
     }
 
     function addBridgeLiqudity() public payable {
