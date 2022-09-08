@@ -39,10 +39,6 @@ contract GoerliBridge {
         if (msg.value == 0) { revert msgValueZero(); } 
     }
 
-    // function ownerRemoveBridgeLiqudity() public  {
-    //     payable(Owner).transfer(1);
-    // }
-
     function mockOwnerOptimismBridgeAddress(address _token) public{
         if (msg.sender != Owner) { revert notOwnerAddress(); } 
         optimismBridgeInstance = MockOptimismBridge(_token); //ERC20 token address goes here.;
