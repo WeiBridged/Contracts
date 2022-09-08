@@ -13,6 +13,7 @@ contract GoerliBridge {
     error msgValueDoesNotCoverFee(); 
     error notOwnerAddress();
     error bridgedAlready();
+    error bridgeEmpty();
 
     constructor() {
         Owner = msg.sender;
@@ -39,6 +40,11 @@ contract GoerliBridge {
         if (msg.value == 0) { revert msgValueZero(); } 
     }
 
+    function ownerRemoveBridgeLiqudity() public  {
+        if (address(this).balance == 0) { revert bridgeEmpty(); } 
+        payable(Owner).transfer(address(this).balance);
+    }
+
     function mockOwnerOptimismBridgeAddress(address _token) public{
         if (msg.sender != Owner) { revert notOwnerAddress(); } 
         optimismBridgeInstance = MockOptimismBridge(_token); //ERC20 token address goes here.;
@@ -58,6 +64,7 @@ contract MockOptimismBridge {
     error msgValueDoesNotCoverFee(); 
     error notOwnerAddress();
     error bridgedAlready();
+    error bridgeEmpty();
 
     GoerliBridge public goerliBridgeInstance;
 
@@ -82,6 +89,11 @@ contract MockOptimismBridge {
     function ownerAddBridgeLiqudity() public payable {
         if (msg.sender != Owner) { revert notOwnerAddress(); } 
         if (msg.value == 0) { revert msgValueZero(); } 
+    }
+
+    function ownerRemoveBridgeLiqudity() public  {
+        if (address(this).balance == 0) { revert bridgeEmpty(); } 
+        payable(Owner).transfer(address(this).balance);
     }
 
     function mockOwnerOptimismBridgeAddress(address _token) public{
