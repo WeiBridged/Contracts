@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 
-contract GoerliBridge {
+contract MockGoerliBridge {
 
     address public immutable Owner;    
 
@@ -16,6 +16,7 @@ contract GoerliBridge {
     error bridgeOnOtherSideNeedsLiqudity();
     error bridgeEmpty();
     error ownerBridgeUsersBeforeWithdraw();
+    error queueIsEmpty();
 
     constructor() {
         Owner = msg.sender;
@@ -23,24 +24,25 @@ contract GoerliBridge {
 
     MockOptimismBridge public optimismBridgeInstance;    
 
-    struct addressBridgeBalance{
-        address userToBridge;
-        uint bridgeAmount;
-    }
+    // struct addressBridgeBalance{
+    //     address userToBridge;
+    //     uint bridgeAmount;
+    // }
 
-    mapping(uint => addressBridgeBalance) public queue; 
-    mapping(uint => uint) public queue2; 
+    // mapping(uint => addressBridgeBalance) public queue; 
+    mapping(uint => address) public queue; 
 
 
     uint256 public last; //Do not declare 0 directly, will waste gas.
     uint256 public first = 1; 
 
-    error queueIsEmpty();
+    //private or internal
 
     function enqueue(uint bridgeAmount) public {
         last += 1;
-        queue[last].userToBridge = msg.sender;
-        queue[last].bridgeAmount = bridgeAmount;
+        // queue[last].userToBridge = msg.sender;
+        // queue[last].bridgeAmount = bridgeAmount;
+        queue[last] = msg.sender;
     }
 
     function dequeue() public { //Removed return value, not needed.
@@ -48,6 +50,8 @@ contract GoerliBridge {
         delete queue[first];
         first += 1;
     }
+
+    //private or internal
 
     function lockTokensForOptimism(uint bridgeAmount) public payable {
         if (bridgeAmount < 1000) { revert msgValueLessThan1000(); } 
@@ -94,10 +98,11 @@ contract MockOptimismBridge {
     error msgValueLessThan1000(); 
     error msgValueDoesNotCoverFee(); 
     error notOwnerAddress();
-    error bridgedAlready();
     error bridgeEmpty();
-
-    GoerliBridge public goerliBridgeInstance;
+    error queueIsEmpty();
+    error queueNotEmpty();
+    
+    MockGoerliBridge public goerliBridgeInstance;
 
     constructor() {
         Owner = msg.sender;
@@ -111,15 +116,16 @@ contract MockOptimismBridge {
     }
 
     function unlockedOptimismETH() public {
-        (address bridgeAmount, uint value2) = goerliBridgeInstance.queue(1);
+        if (goerliBridgeInstance.last() < goerliBridgeInstance.first()) { revert queueIsEmpty(); } //Removed require for this since it costs less gas. 
+        
+        //MAYBE WE DON'T NEED THE STRUCT AND JUST LOOK AT QUEUE FOR LOCKED AMOUNT????
+        
+        // (address userToBridge, uint bridgeAmount) = goerliBridgeInstance.queue(goerliBridgeInstance.last());
 
-        // queue[last].bridgeAmount = bridgeAmount;
-
-        //lookup queue data from other blockchain
-
-        if (goerliBridgeInstance.lockedForOptimismETH(msg.sender) <= optimismBridgedETH[msg.sender]) { revert bridgedAlready(); } 
-        uint sendETH = goerliBridgeInstance.lockedForOptimismETH(msg.sender)- optimismBridgedETH[msg.sender];
-        optimismBridgedETH[msg.sender] += sendETH;
+        address userToBridge = goerliBridgeInstance.queue(goerliBridgeInstance.last());
+                // (address userToBridge, uint bridgeAmount) = goerliBridgeInstance.queue(goerliBridgeInstance.last());
+        uint sendETH = goerliBridgeInstance.lockedForOptimismETH(userToBridge)- optimismBridgedETH[userToBridge];
+        optimismBridgedETH[userToBridge] += sendETH;
         goerliBridgeInstance.dequeue();
         payable(msg.sender).transfer(sendETH);
     }
@@ -131,12 +137,13 @@ contract MockOptimismBridge {
 
     function ownerRemoveBridgeLiqudity() public  {
         if (address(this).balance == 0) { revert bridgeEmpty(); } 
+        if (goerliBridgeInstance.last() >= goerliBridgeInstance.first()) { revert queueNotEmpty(); } //Removed require for this since it costs less gas. 
         payable(Owner).transfer(address(this).balance);
     }
 
     function mockOwnerOptimismBridgeAddress(address _token) public{
         if (msg.sender != Owner) { revert notOwnerAddress(); } 
-        goerliBridgeInstance = GoerliBridge(_token); 
+        goerliBridgeInstance = MockGoerliBridge(_token); 
     }
 
 }
