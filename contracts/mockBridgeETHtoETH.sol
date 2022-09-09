@@ -110,8 +110,8 @@ contract MockOptimismBridge {
 contract Queue { //Modified from //https://programtheblockchain.com/posts/2018/03/23/storage-patterns-stacks-queues-and-deques/
     mapping(uint256 => address) public queue; 
 
+    uint256 public last; //Do not declare 0 directly, will waste gas.
     uint256 public first = 1; 
-    uint256 public last = 0;
 
     error queueIsEmpty();
 
@@ -120,8 +120,8 @@ contract Queue { //Modified from //https://programtheblockchain.com/posts/2018/0
         queue[last] = Address;
     }
 
-    function dequeue() public {
-        if (last < first) { revert queueIsEmpty(); }
+    function dequeue() public { //Removed return value, not needed.
+        if (last < first) { revert queueIsEmpty(); } //Removed require for this since it costs less gas. 
         delete queue[first];
         first += 1;
     }
