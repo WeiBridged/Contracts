@@ -18,8 +18,6 @@
 
 :red_circle: In progress:
 
--Copy queue logic to other Optimism to Goerli
-
 -MSG.VALUE to ERC-20 token address logic (unique on each chain)
 
 -Either use a struct and handle all token addresses in a single main Goerli contract with token addresses and chain IDs, or split Goerli contracts up to keep things simple
