@@ -52,7 +52,7 @@ contract MockGoerliBridge {
         payable(Owner).transfer(msg.value);
     }
 
-    function ownerUnlockOptimismETH() public {
+    function ownerUnlockGoerliETH() public {
         if (msg.sender != Owner) { revert notOwnerAddress(); }
         if (address(optimismBridgeInstance) == address(0) || optimismBridgeInstance.last() < optimismBridgeInstance.first()) { revert queueIsEmpty(); } //Removed require for this since it costs less gas.
         address userToBridge = optimismBridgeInstance.queue(optimismBridgeInstance.last());
