@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">19.23% </span>
-        <span class="quiet">Statements</span>
-        <span class='fraction'>10/52</span>
-      </div>
-      <div class='fl pad1y space-right2'>
         <span class="strong">25% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>13/52</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">35.42% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>12/48</span>
+        <span class='fraction'>17/48</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">37.5% </span>
+        <span class="strong">43.75% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>6/16</span>
+        <span class='fraction'>7/16</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">18.52% </span>
+        <span class="strong">24.07% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>10/54</span>
+        <span class='fraction'>13/54</span>
       </div>
     </div>
   </div>
@@ -224,7 +224,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">36×</span>
+<span class="cline-any cline-yes">45×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -247,9 +247,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -320,7 +320,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">36×</span>
+<span class="cline-any cline-yes">45×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -398,16 +398,16 @@ contract MockGoerliBridge {
     }
 &nbsp;
 <span class="fstat-no" title="function not covered" >    function dequeue() external { //Gets called by the other bridge contract, external.</span>
-<span class="cstat-no" title="statement not covered" >        if (msg.sender != address(optimismBridgeInstance) &amp;&amp; address(optimismBridgeInstance) != address(0)) { revert notExternalBridge(); }</span> //Protect function external with owner call
+<span class="cstat-no" title="statement not covered" >        if (msg.sender != address(optimismBridgeInstance) || address(optimismBridgeInstance) == address(0)) { revert notExternalBridge(); }</span> //Protect function external with owner call
 <span class="cstat-no" title="statement not covered" >        if (last &lt; first) { revert queueIsEmpty(); }</span> //Removed require for this since it costs less gas.
         delete queue[first];
 <span class="cstat-no" title="statement not covered" >        first += 1</span>;
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    function lockTokensForOptimism(uint bridgeAmount) public payable {</span>
-<span class="cstat-no" title="statement not covered" >        if (bridgeAmount &lt; 1000) { revert msgValueLessThan1000(); }</span>
-<span class="cstat-no" title="statement not covered" >        if (msg.value != (1003*bridgeAmount)/1000 ) { revert msgValueDoesNotCoverFee(); }</span>
-<span class="cstat-no" title="statement not covered" >        if (address(optimismBridgeInstance).balance &lt; bridgeAmount) { revert bridgeOnOtherSideNeedsLiqudity(); }</span>
+    function lockTokensForOptimism(uint bridgeAmount) public payable {
+        if (bridgeAmount &lt; 1000) { revert msgValueLessThan1000(); }
+        if (msg.value != (1003*bridgeAmount)/1000 ) { revert msgValueDoesNotCoverFee(); }
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (address(optimismBridgeInstance).balance &lt; bridgeAmount || address(optimismBridgeInstance) == address(0) ) { revert bridgeOnOtherSideNeedsLiqudity(); }
 <span class="cstat-no" title="statement not covered" >        lockedForOptimismETH[msg.sender] += (1000*msg.value)/1003</span>;
 <span class="cstat-no" title="statement not covered" >        enqueue()</span>;
 <span class="cstat-no" title="statement not covered" >        payable(Owner).transfer(msg.value)</span>;
@@ -471,7 +471,7 @@ contract MockOptimismBridge {
     }
 &nbsp;
 <span class="fstat-no" title="function not covered" >    function dequeue() external { //Removed return value, not needed.</span>
-<span class="cstat-no" title="statement not covered" >        if (msg.sender != address(goerliBridgeInstance) &amp;&amp; address(goerliBridgeInstance) != address(0)) { revert notExternalBridge(); }</span> //Protect function external with owner call
+<span class="cstat-no" title="statement not covered" >        if (msg.sender != address(goerliBridgeInstance) || address(goerliBridgeInstance) == address(0)) { revert notExternalBridge(); }</span> //Protect function external with owner call
 <span class="cstat-no" title="statement not covered" >        if (last &lt; first) { revert queueIsEmpty(); }</span> //Removed require for this since it costs less gas.
         delete queue[first];
 <span class="cstat-no" title="statement not covered" >        first += 1</span>;
@@ -484,7 +484,7 @@ contract MockOptimismBridge {
 <span class="fstat-no" title="function not covered" >    function lockTokensForGoerli(uint bridgeAmount) public payable {</span>
 <span class="cstat-no" title="statement not covered" >        if (bridgeAmount &lt; 1000) { revert msgValueLessThan1000(); }</span>
 <span class="cstat-no" title="statement not covered" >        if (msg.value != (1003*bridgeAmount)/1000 ) { revert msgValueDoesNotCoverFee(); }</span>
-<span class="cstat-no" title="statement not covered" >        if (address(goerliBridgeInstance).balance &lt; bridgeAmount) { revert bridgeOnOtherSideNeedsLiqudity(); }</span>
+<span class="cstat-no" title="statement not covered" >        if (address(goerliBridgeInstance).balance &lt; bridgeAmount || address(goerliBridgeInstance) == address(0) ) { revert bridgeOnOtherSideNeedsLiqudity(); }</span>
 <span class="cstat-no" title="statement not covered" >        lockedForGoerliETH[msg.sender] += (1000*msg.value)/1003</span>;
 <span class="cstat-no" title="statement not covered" >        enqueue()</span>;
 <span class="cstat-no" title="statement not covered" >        payable(Owner).transfer(msg.value)</span>;
@@ -523,7 +523,7 @@ contract MockOptimismBridge {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Sep 09 2022 14:20:32 GMT-0400 (Eastern Daylight Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Sep 09 2022 14:36:51 GMT-0400 (Eastern Daylight Time)
 </div>
 </div>
 <script src="../prettify.js"></script>

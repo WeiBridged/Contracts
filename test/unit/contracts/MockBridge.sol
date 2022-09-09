@@ -37,7 +37,7 @@ contract MockGoerliBridge {
     }
 
     function dequeue() external { //Gets called by the other bridge contract, external.
-        if (msg.sender != address(optimismBridgeInstance) && address(optimismBridgeInstance) != address(0)) { revert notExternalBridge(); } //Protect function external with owner call
+        if (msg.sender != address(optimismBridgeInstance) || address(optimismBridgeInstance) == address(0)) { revert notExternalBridge(); } //Protect function external with owner call
         if (last < first) { revert queueIsEmpty(); } //Removed require for this since it costs less gas.
         delete queue[first];
         first += 1;
@@ -46,7 +46,7 @@ contract MockGoerliBridge {
     function lockTokensForOptimism(uint bridgeAmount) public payable {
         if (bridgeAmount < 1000) { revert msgValueLessThan1000(); }
         if (msg.value != (1003*bridgeAmount)/1000 ) { revert msgValueDoesNotCoverFee(); }
-        if (address(optimismBridgeInstance).balance < bridgeAmount) { revert bridgeOnOtherSideNeedsLiqudity(); }
+        if (address(optimismBridgeInstance).balance < bridgeAmount || address(optimismBridgeInstance) == address(0) ) { revert bridgeOnOtherSideNeedsLiqudity(); }
         lockedForOptimismETH[msg.sender] += (1000*msg.value)/1003;
         enqueue();
         payable(Owner).transfer(msg.value);
@@ -110,7 +110,7 @@ contract MockOptimismBridge {
     }
 
     function dequeue() external { //Removed return value, not needed.
-        if (msg.sender != address(goerliBridgeInstance) && address(goerliBridgeInstance) != address(0)) { revert notExternalBridge(); } //Protect function external with owner call
+        if (msg.sender != address(goerliBridgeInstance) || address(goerliBridgeInstance) == address(0)) { revert notExternalBridge(); } //Protect function external with owner call
         if (last < first) { revert queueIsEmpty(); } //Removed require for this since it costs less gas.
         delete queue[first];
         first += 1;
@@ -123,7 +123,7 @@ contract MockOptimismBridge {
     function lockTokensForGoerli(uint bridgeAmount) public payable {
         if (bridgeAmount < 1000) { revert msgValueLessThan1000(); }
         if (msg.value != (1003*bridgeAmount)/1000 ) { revert msgValueDoesNotCoverFee(); }
-        if (address(goerliBridgeInstance).balance < bridgeAmount) { revert bridgeOnOtherSideNeedsLiqudity(); }
+        if (address(goerliBridgeInstance).balance < bridgeAmount || address(goerliBridgeInstance) == address(0) ) { revert bridgeOnOtherSideNeedsLiqudity(); }
         lockedForGoerliETH[msg.sender] += (1000*msg.value)/1003;
         enqueue();
         payable(Owner).transfer(msg.value);

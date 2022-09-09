@@ -24,13 +24,17 @@ describe("Faucet Tests:", function () {
       });
 
       describe("constructor()", function () {
-          it("relayAddress set", async function () {
+          it("Owner set", async function () {
             expect(await MockGoerliBridgeDeployed.Owner()).to.equal(owner.address);
           });
-          it("relayAddress set", async function () {
-            expect(await MockOptimismBridgeDeployed.Owner()).to.equal(owner.address);
-          });
        });
+
+       describe("constructor()", function () {
+           it("Owner set", async function () {
+             expect(await MockOptimismBridgeDeployed.Owner()).to.equal(owner.address);
+           });
+        });
+
 
        describe("mockOwnerOptimismBridgeAddress(address)", function () {
           it("Revert if msg.sender != Owner", async function () {
@@ -103,6 +107,34 @@ describe("Faucet Tests:", function () {
              });
 
            });
+
+           describe("ownerUnlockOptimismETH(bridgeAmount)", function () {
+              it("Revert if MSG.VALUE < 1000", async function () {
+                await expect(
+                  MockGoerliBridgeDeployed.connect(addr1).lockTokensForOptimism(0)
+                ).to.be.revertedWith("msgValueLessThan1000()");
+              });
+              it("Revert if MSG.VALUE < 1000", async function () {
+                await expect(
+                  MockGoerliBridgeDeployed.connect(addr1).lockTokensForOptimism(1000)
+                ).to.be.revertedWith("msgValueDoesNotCoverFee()");
+              });
+              it("Revert if MSG.VALUE < 1000", async function () {
+                await expect(
+                  MockGoerliBridgeDeployed.connect(addr1).lockTokensForOptimism(1000, {value: "1003"})
+                ).to.be.revertedWith("bridgeOnOtherSideNeedsLiqudity()");
+              });
+              // it("Otherwise send MSG.VALUE to contract", async function () {
+              //    const transaction = await MockOptimismBridgeDeployed
+              //     .ownerAddBridgeLiqudity({
+              //       value: "1003",
+              //     });
+              //   const tx_receipt = await transaction.wait();
+              //   expect(await provider.getBalance(MockOptimismBridgeDeployed.address) ).to.equal("1003");
+              // });
+
+            });
+
 
 //
 //          const transaction = await electricKeeperDeployed
