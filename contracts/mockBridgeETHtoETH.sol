@@ -56,7 +56,7 @@ contract MockGoerliBridge {
     function lockTokensForOptimism(uint bridgeAmount) public payable {
         if (bridgeAmount < 1000) { revert msgValueLessThan1000(); } 
         if (msg.value != (1003*bridgeAmount)/1000 ) { revert msgValueDoesNotCoverFee(); } 
-        // if (address(optimismBridgeInstance).balance < bridgeAmount) { revert bridgeOnOtherSideNeedsLiqudity(); } 
+        if (address(optimismBridgeInstance).balance < bridgeAmount) { revert bridgeOnOtherSideNeedsLiqudity(); } 
         lockedForOptimismETH[msg.sender] += (1000*msg.value)/1003;
         enqueue(bridgeAmount);
         payable(Owner).transfer(msg.value);
@@ -127,7 +127,7 @@ contract MockOptimismBridge {
         uint sendETH = goerliBridgeInstance.lockedForOptimismETH(userToBridge)- optimismBridgedETH[userToBridge];
         optimismBridgedETH[userToBridge] += sendETH;
         goerliBridgeInstance.dequeue();
-        payable(msg.sender).transfer(sendETH);
+        payable(userToBridge).transfer(sendETH);
     }
 
     function ownerAddBridgeLiqudity() public payable {
