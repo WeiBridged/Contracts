@@ -31,7 +31,7 @@ contract MockGoerliBridge {
     // }
 
     // mapping(uint => addressBridgeBalance) public queue; 
-    mapping(uint => address) public queue; 
+    mapping(uint => address) public queue; //Modified from //https://programtheblockchain.com/posts/2018/03/23/storage-patterns-stacks-queues-and-deques/
 
     uint256 public last; //Do not declare 0 directly, will waste gas.
     uint256 public first = 1; 
@@ -59,18 +59,16 @@ contract MockGoerliBridge {
         payable(Owner).transfer(msg.value);
     }
 
-    function unlockedOptimismETH() public {
-        if (optimismBridgeInstance.last() < optimismBridgeInstance.first()) { revert queueIsEmpty(); } //Removed require for this since it costs less gas. 
+    function ownerUnlockOptimismETH() public {
         
         //MAYBE WE DON'T NEED THE STRUCT AND JUST LOOK AT QUEUE FOR LOCKED AMOUNT????
-        
         // (address userToBridge, uint bridgeAmount) = goerliBridgeInstance.queue(goerliBridgeInstance.last());
-
+        
+        if (optimismBridgeInstance.last() < optimismBridgeInstance.first()) { revert queueIsEmpty(); } //Removed require for this since it costs less gas. 
         address userToBridge = optimismBridgeInstance.queue(optimismBridgeInstance.last());
-                // (address userToBridge, uint bridgeAmount) = goerliBridgeInstance.queue(goerliBridgeInstance.last());
+        optimismBridgeInstance.dequeue(); //Only owner can call this.
         uint sendETH = optimismBridgeInstance.lockedForGoerliETH(userToBridge)- goerliBridgedETH[userToBridge];
         goerliBridgedETH[userToBridge] += sendETH;
-        optimismBridgeInstance.dequeue(); //Only owner can call this.
         payable(userToBridge).transfer(sendETH);
     }
 
@@ -116,8 +114,6 @@ contract MockOptimismBridge {
 
     function enqueue() private { //Should not be called outside of contract or by anyone else, private.
         last += 1;
-        // queue[last].userToBridge = msg.sender;
-        // queue[last].bridgeAmount = bridgeAmount;
         queue[last] = msg.sender;
     }
 
@@ -127,8 +123,6 @@ contract MockOptimismBridge {
         delete queue[first];
         first += 1;
     }
-
-    //private or internal???
 
     constructor() {
         Owner = msg.sender;
@@ -142,18 +136,12 @@ contract MockOptimismBridge {
         payable(Owner).transfer(msg.value);
     }
 
-    function unlockedOptimismETH() public {
+    function ownerUnlockOptimismETH() public {
         if (goerliBridgeInstance.last() < goerliBridgeInstance.first()) { revert queueIsEmpty(); } //Removed require for this since it costs less gas. 
-        
-        //MAYBE WE DON'T NEED THE STRUCT AND JUST LOOK AT QUEUE FOR LOCKED AMOUNT????
-        
-        // (address userToBridge, uint bridgeAmount) = goerliBridgeInstance.queue(goerliBridgeInstance.last());
-
         address userToBridge = goerliBridgeInstance.queue(goerliBridgeInstance.last());
-                // (address userToBridge, uint bridgeAmount) = goerliBridgeInstance.queue(goerliBridgeInstance.last());
+        goerliBridgeInstance.dequeue(); //Only owner can call this.
         uint sendETH = goerliBridgeInstance.lockedForOptimismETH(userToBridge)- optimismBridgedETH[userToBridge];
         optimismBridgedETH[userToBridge] += sendETH;
-        goerliBridgeInstance.dequeue(); //Only owner can call this.
         payable(userToBridge).transfer(sendETH);
     }
 
@@ -175,22 +163,3 @@ contract MockOptimismBridge {
 
 }
 
-// contract Queue { //Modified from //https://programtheblockchain.com/posts/2018/03/23/storage-patterns-stacks-queues-and-deques/
-//     mapping(uint256 => address) public queue; 
-
-//     uint256 public last; //Do not declare 0 directly, will waste gas.
-//     uint256 public first = 1; 
-
-//     error queueIsEmpty();
-
-//     function enqueue(address Address) public {
-//         last += 1;
-//         queue[last] = Address;
-//     }
-
-//     function dequeue() public { //Removed return value, not needed.
-//         if (last < first) { revert queueIsEmpty(); } //Removed require for this since it costs less gas. 
-//         delete queue[first];
-//         first += 1;
-//     }
-// }
