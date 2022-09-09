@@ -6,6 +6,8 @@
 
 -MSG.VALUE to MSG.VALUE bridge logic
 
+-Queue in Solidity pushes new user who locked tokens, then serves them first to be bridged, then removed from queue (Goerli to Optimism path)
+
 -Added 0.3% bridge fee paid to contract Owner
 
 -Able to use Geth and Prysm Goerli synced node locally to read and write to Goerli blockchain
@@ -14,7 +16,7 @@
 
 :red_circle: In progress:
 
--Adding queue logic to track users to bridge in order
+-Copy queue logic to other Optimism to Goerli
 
 -MSG.VALUE to ERC-20 token address logic (unique on each chain)
 
