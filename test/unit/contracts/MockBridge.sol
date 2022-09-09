@@ -106,6 +106,7 @@ contract MockOptimismBridge {
     error queueIsEmpty();
     error queueNotEmpty();
     error notExternalBridge();
+    error bridgeOnOtherSideNeedsLiqudity();
 
     MockGoerliBridge public goerliBridgeInstance;
 
@@ -133,6 +134,7 @@ contract MockOptimismBridge {
     function lockTokensForGoerli(uint bridgeAmount) public payable {
         if (bridgeAmount < 1000) { revert msgValueLessThan1000(); }
         if (msg.value != (1003*bridgeAmount)/1000 ) { revert msgValueDoesNotCoverFee(); }
+        if (address(goerliBridgeInstance).balance < bridgeAmount) { revert bridgeOnOtherSideNeedsLiqudity(); }
         lockedForGoerliETH[msg.sender] += (1000*msg.value)/1003;
         enqueue();
         payable(Owner).transfer(msg.value);

@@ -31,10 +31,15 @@ describe("Faucet Tests:", function () {
        });
 
        describe("mockOwnerOptimismBridgeAddress(address _token)", function () {
-          it("Revert if relayAddress is not msg.sender", async function () {
+          it("Revert if msg.sender != Owner", async function () {
             await expect(
               MockGoerliBridgeDeployed.connect(addr1).mockOwnerOptimismBridgeAddress(MockOptimismBridgeDeployed.address)
             ).to.be.revertedWith("notOwnerAddress()");
+          });
+          it("If msg.sender == Owner, update bridge address", async function () {
+             const transactionCallAPI = await MockGoerliBridgeDeployed.mockOwnerOptimismBridgeAddress(MockOptimismBridgeDeployed.address);
+             const tx_receiptCallAPI = await transactionCallAPI.wait();
+             expect(await MockGoerliBridgeDeployed.optimismBridgeInstance()).to.equal(MockOptimismBridgeDeployed.address);
           });
 
         });
@@ -44,6 +49,11 @@ describe("Faucet Tests:", function () {
              await expect(
                MockOptimismBridgeDeployed.connect(addr1).mockOwnerGoerliBridgeAddress(MockGoerliBridgeDeployed.address)
              ).to.be.revertedWith("notOwnerAddress()");
+           });
+           it("If msg.sender == Owner, update bridge address", async function () {
+             const transactionCallAPI = await MockOptimismBridgeDeployed.mockOwnerGoerliBridgeAddress(MockGoerliBridgeDeployed.address);
+             const tx_receiptCallAPI = await transactionCallAPI.wait();
+             expect(await MockOptimismBridgeDeployed.goerliBridgeInstance()).to.equal(MockGoerliBridgeDeployed.address);
            });
 
          });
