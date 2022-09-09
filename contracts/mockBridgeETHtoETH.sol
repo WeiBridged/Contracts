@@ -28,7 +28,9 @@ contract GoerliBridge {
         uint bridgeAmount;
     }
 
-    mapping(uint256 => addressBridgeBalance) public queue; 
+    mapping(uint => addressBridgeBalance) public queue; 
+    mapping(uint => uint) public queue2; 
+
 
     uint256 public last; //Do not declare 0 directly, will waste gas.
     uint256 public first = 1; 
@@ -109,9 +111,16 @@ contract MockOptimismBridge {
     }
 
     function unlockedOptimismETH() public {
+        (address bridgeAmount, uint value2) = goerliBridgeInstance.queue(1);
+
+        // queue[last].bridgeAmount = bridgeAmount;
+
+        //lookup queue data from other blockchain
+
         if (goerliBridgeInstance.lockedForOptimismETH(msg.sender) <= optimismBridgedETH[msg.sender]) { revert bridgedAlready(); } 
         uint sendETH = goerliBridgeInstance.lockedForOptimismETH(msg.sender)- optimismBridgedETH[msg.sender];
         optimismBridgedETH[msg.sender] += sendETH;
+        goerliBridgeInstance.dequeue();
         payable(msg.sender).transfer(sendETH);
     }
 
