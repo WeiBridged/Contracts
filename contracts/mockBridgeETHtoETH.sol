@@ -120,7 +120,7 @@ contract MockOptimismBridge {
     }
 
     function dequeue() external { //Removed return value, not needed.
-        if (msg.sender == address(goerliBridgeInstance) && address(goerliBridgeInstance) == address(0)) { revert notExternalBridge(); } //Protect function external with owner call
+        if (msg.sender != address(goerliBridgeInstance) && address(goerliBridgeInstance) != address(0)) { revert notExternalBridge(); } //Protect function external with owner call
         if (last < first) { revert queueIsEmpty(); } //Removed require for this since it costs less gas. 
         delete queue[first];
         first += 1;
