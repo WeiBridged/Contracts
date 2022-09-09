@@ -36,28 +36,19 @@ contract MockGoerliBridge {
     uint256 public last; //Do not declare 0 directly, will waste gas.
     uint256 public first = 1; 
 
-
-
-
-    //private or internal???
-
-    function enqueue() public {
+    function enqueue() private { //Should not be called outside of contract or by anyone else, private.
         last += 1;
         // queue[last].userToBridge = msg.sender;
         // queue[last].bridgeAmount = bridgeAmount;
         queue[last] = msg.sender;
     }
 
-    function dequeue() public { //Removed return value, not needed.
+    function dequeue() external { //Gets called by the other bridge contract, external.
+        if (msg.sender != Owner) { revert notOwnerAddress(); } //Protect function external with owner call
         if (last < first) { revert queueIsEmpty(); } //Removed require for this since it costs less gas. 
         delete queue[first];
         first += 1;
     }
-
-    //private or internal???
-
-
-
 
     function lockTokensForOptimism(uint bridgeAmount) public payable {
         if (bridgeAmount < 1000) { revert msgValueLessThan1000(); } 
@@ -79,7 +70,7 @@ contract MockGoerliBridge {
                 // (address userToBridge, uint bridgeAmount) = goerliBridgeInstance.queue(goerliBridgeInstance.last());
         uint sendETH = optimismBridgeInstance.lockedForGoerliETH(userToBridge)- goerliBridgedETH[userToBridge];
         goerliBridgedETH[userToBridge] += sendETH;
-        optimismBridgeInstance.dequeue();
+        optimismBridgeInstance.dequeue(); //Only owner can call this.
         payable(userToBridge).transfer(sendETH);
     }
 
@@ -123,19 +114,15 @@ contract MockOptimismBridge {
     uint256 public last; //Do not declare 0 directly, will waste gas.
     uint256 public first = 1; 
 
-
-
-
-    //private or internal???
-
-    function enqueue() public {
+    function enqueue() private { //Should not be called outside of contract or by anyone else, private.
         last += 1;
         // queue[last].userToBridge = msg.sender;
         // queue[last].bridgeAmount = bridgeAmount;
         queue[last] = msg.sender;
     }
 
-    function dequeue() public { //Removed return value, not needed.
+    function dequeue() external { //Removed return value, not needed.
+        if (msg.sender != Owner) { revert notOwnerAddress(); } //Protect function external with owner call
         if (last < first) { revert queueIsEmpty(); } //Removed require for this since it costs less gas. 
         delete queue[first];
         first += 1;
@@ -166,7 +153,7 @@ contract MockOptimismBridge {
                 // (address userToBridge, uint bridgeAmount) = goerliBridgeInstance.queue(goerliBridgeInstance.last());
         uint sendETH = goerliBridgeInstance.lockedForOptimismETH(userToBridge)- optimismBridgedETH[userToBridge];
         optimismBridgedETH[userToBridge] += sendETH;
-        goerliBridgeInstance.dequeue();
+        goerliBridgeInstance.dequeue(); //Only owner can call this.
         payable(userToBridge).transfer(sendETH);
     }
 
