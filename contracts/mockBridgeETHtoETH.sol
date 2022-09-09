@@ -18,6 +18,7 @@ contract MockGoerliBridge {
     error ownerBridgeUsersBeforeWithdraw();
     error queueIsEmpty();
     error queueNotEmpty();
+    error notExternalBridge();
 
     constructor() {
         Owner = msg.sender;
@@ -44,7 +45,7 @@ contract MockGoerliBridge {
     }
 
     function dequeue() external { //Gets called by the other bridge contract, external.
-        if (msg.sender != Owner) { revert notOwnerAddress(); } //Protect function external with owner call
+        if (msg.sender != address(optimismBridgeInstance) && address(optimismBridgeInstance) != address(0)) { revert notExternalBridge(); } //Protect function external with owner call
         if (last < first) { revert queueIsEmpty(); } //Removed require for this since it costs less gas. 
         delete queue[first];
         first += 1;
@@ -63,10 +64,10 @@ contract MockGoerliBridge {
         
         //MAYBE WE DON'T NEED THE STRUCT AND JUST LOOK AT QUEUE FOR LOCKED AMOUNT????
         // (address userToBridge, uint bridgeAmount) = goerliBridgeInstance.queue(goerliBridgeInstance.last());
-        
+        if (msg.sender != Owner) { revert notOwnerAddress(); } 
         if (optimismBridgeInstance.last() < optimismBridgeInstance.first()) { revert queueIsEmpty(); } //Removed require for this since it costs less gas. 
         address userToBridge = optimismBridgeInstance.queue(optimismBridgeInstance.last());
-        optimismBridgeInstance.dequeue(); //Only owner can call this.
+        optimismBridgeInstance.dequeue(); //Only this contract address set from the other contract from owner can call this function.
         uint sendETH = optimismBridgeInstance.lockedForGoerliETH(userToBridge)- goerliBridgedETH[userToBridge];
         goerliBridgedETH[userToBridge] += sendETH;
         payable(userToBridge).transfer(sendETH);
@@ -104,6 +105,7 @@ contract MockOptimismBridge {
     error bridgeEmpty();
     error queueIsEmpty();
     error queueNotEmpty();
+    error notExternalBridge();
     
     MockGoerliBridge public goerliBridgeInstance;
 
@@ -118,7 +120,7 @@ contract MockOptimismBridge {
     }
 
     function dequeue() external { //Removed return value, not needed.
-        if (msg.sender != Owner) { revert notOwnerAddress(); } //Protect function external with owner call
+        if (msg.sender == address(goerliBridgeInstance) && address(goerliBridgeInstance) == address(0)) { revert notExternalBridge(); } //Protect function external with owner call
         if (last < first) { revert queueIsEmpty(); } //Removed require for this since it costs less gas. 
         delete queue[first];
         first += 1;
@@ -137,9 +139,10 @@ contract MockOptimismBridge {
     }
 
     function ownerUnlockOptimismETH() public {
+        if (msg.sender != Owner) { revert notOwnerAddress(); } 
         if (goerliBridgeInstance.last() < goerliBridgeInstance.first()) { revert queueIsEmpty(); } //Removed require for this since it costs less gas. 
         address userToBridge = goerliBridgeInstance.queue(goerliBridgeInstance.last());
-        goerliBridgeInstance.dequeue(); //Only owner can call this.
+        goerliBridgeInstance.dequeue(); //Only this contract address set from the other contract from owner can call this function.
         uint sendETH = goerliBridgeInstance.lockedForOptimismETH(userToBridge)- optimismBridgedETH[userToBridge];
         optimismBridgedETH[userToBridge] += sendETH;
         payable(userToBridge).transfer(sendETH);
@@ -162,4 +165,3 @@ contract MockOptimismBridge {
     }
 
 }
-
