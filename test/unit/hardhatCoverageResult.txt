@@ -1,0 +1,87 @@
+
+Version
+=======
+> solidity-coverage: v0.7.21
+
+Instrumenting for coverage...
+=============================
+
+> MockBridge.sol
+
+Compilation:
+============
+
+Nothing to compile
+
+Network Info
+============
+> HardhatEVM: v2.10.2
+> network:    hardhat
+
+
+
+  Faucet Tests:
+    constructor()
+      ✔ Owner set
+    constructor()
+      ✔ Owner set
+    mockOwnerOptimismBridgeAddress(address)
+      ✔ Revert if msg.sender != Owner
+      ✔ If msg.sender == Owner, update bridge address
+    mockOwnerGoerliBridgeAddress(address)
+      ✔ Revert if Owner is not msg.sender
+      ✔ If msg.sender == Owner, update bridge address
+    ownerAddBridgeLiqudity()
+      ✔ Revert if Owner is not msg.sender
+      ✔ Revert if MSG.VALUE == 0
+      ✔ Otherwise send MSG.VALUE to contract
+    ownerAddBridgeLiqudity()
+      ✔ Revert if Owner is not msg.sender
+      ✔ Revert if MSG.VALUE == 0
+      ✔ Otherwise send MSG.VALUE to contract
+    ownerUnlockOptimismETH(bridgeAmount)
+      ✔ Revert if MSG.VALUE < 1000
+      ✔ Revert if MSG.VALUE != (1003*bridgeAmount)/1000
+      ✔ Revert if bridge on other side has no funds.
+      ✔ Allow user to bridge after we set bridge address and send it enough funds. (61ms)
+    lockTokensForGoerli(bridgeAmount)
+      ✔ Revert if MSG.VALUE < 1000
+      ✔ Revert if MSG.VALUE != (1003*bridgeAmount)/1000
+      ✔ Revert if bridge on other side has no funds.
+      ✔ Allow user to bridge after we set bridge address and send it enough funds.
+    ownerRemoveBridgeLiqudity()
+      ✔ Revert if msg.sender != Owner
+      ✔ Revert if bridge has no ETH
+      ✔ Cannot withdraw if user on other contract queue, need to bridge them first. (65ms)
+      ✔ Valid withdraw
+    ownerRemoveBridgeLiqudity()
+      ✔ Revert if msg.sender != Owner
+      ✔ Revert if bridge has no ETH
+      ✔ Cannot withdraw if user on other contract queue, need to bridge them first. (55ms)
+      ✔ Valid withdraw (45ms)
+    ownerUnlockGoerliETH()
+      ✔ Revert if msg.sender != Owner
+      ✔ Revert if queue is empty
+      ✔ Lock Optimism ETH then unlock Goerli ETH. (69ms)
+    ownerUnlockOptimismETH()
+      ✔ Revert if msg.sender != Owner
+      ✔ Revert if bridge has no ETH
+      ✔ Lock Goerli ETH then unlock Optimism ETH. (65ms)
+    dequeue()
+      ✔ Revert if msg.sender != address(optimismBridgeInstance)
+    dequeue()
+      ✔ Revert if msg.sender != address(goerliBridgeInstance)
+
+
+  36 passing (3s)
+
+-----------------|----------|----------|----------|----------|----------------|
+File             |  % Stmts | % Branch |  % Funcs |  % Lines |Uncovered Lines |
+-----------------|----------|----------|----------|----------|----------------|
+ contracts/      |      100 |      100 |      100 |      100 |                |
+  MockBridge.sol |      100 |      100 |      100 |      100 |                |
+-----------------|----------|----------|----------|----------|----------------|
+All files        |      100 |      100 |      100 |      100 |                |
+-----------------|----------|----------|----------|----------|----------------|
+
+> Istanbul reports written to ./coverage/ and ./coverage.json

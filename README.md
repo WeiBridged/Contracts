@@ -16,15 +16,15 @@
 
 -Tested example queue logic library in contract
 
+-Hardhat unit test mock ETH to ETH contract
+
 :red_circle: In progress:
 
 -MSG.VALUE to ERC-20 token address logic (unique on each chain)
 
--Either use a struct and handle all token addresses in a single main Goerli contract with token addresses and chain IDs, or split Goerli contracts up to keep things simple
+-Hardhat unit test mock ETH to ETH contract
 
 -Writing scripts to call contracts between local node / Quicknode / Infura endpoints in either Go, web3.py or web3.js
-
--Hardhat unit testing mock contracts
 
 -Deploy contracts to:
 
@@ -32,15 +32,15 @@ Goerli (ETH)
 
 Optimism (ETH),
 
-Aurora (ETH), 
+Aurora (ETH),
 
-Polygon (MATIC), 
+Polygon (MATIC),
 
-Oasis (ROSE), 
+Oasis (ROSE),
 
-Cronos (TCRO), 
+Cronos (TCRO),
 
-Skale (????????), 
+Skale (????????),
 
 Shardeum (SHM)
 
