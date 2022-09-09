@@ -38,7 +38,7 @@ contract MockGoerliBridge {
 
     //private or internal
 
-    function enqueue(uint bridgeAmount) public {
+    function enqueue() public {
         last += 1;
         // queue[last].userToBridge = msg.sender;
         // queue[last].bridgeAmount = bridgeAmount;
@@ -58,7 +58,7 @@ contract MockGoerliBridge {
         if (msg.value != (1003*bridgeAmount)/1000 ) { revert msgValueDoesNotCoverFee(); } 
         if (address(optimismBridgeInstance).balance < bridgeAmount) { revert bridgeOnOtherSideNeedsLiqudity(); } 
         lockedForOptimismETH[msg.sender] += (1000*msg.value)/1003;
-        enqueue(bridgeAmount);
+        enqueue();
         payable(Owner).transfer(msg.value);
     }
 
