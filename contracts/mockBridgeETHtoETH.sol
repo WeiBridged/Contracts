@@ -17,6 +17,7 @@ contract MockGoerliBridge {
     error bridgeEmpty();
     error ownerBridgeUsersBeforeWithdraw();
     error queueIsEmpty();
+    error queueNotEmpty();
 
     constructor() {
         Owner = msg.sender;
@@ -32,11 +33,13 @@ contract MockGoerliBridge {
     // mapping(uint => addressBridgeBalance) public queue; 
     mapping(uint => address) public queue; 
 
-
     uint256 public last; //Do not declare 0 directly, will waste gas.
     uint256 public first = 1; 
 
-    //private or internal
+
+
+
+    //private or internal???
 
     function enqueue() public {
         last += 1;
@@ -51,7 +54,10 @@ contract MockGoerliBridge {
         first += 1;
     }
 
-    //private or internal
+    //private or internal???
+
+
+
 
     function lockTokensForOptimism(uint bridgeAmount) public payable {
         if (bridgeAmount < 1000) { revert msgValueLessThan1000(); } 
@@ -63,10 +69,18 @@ contract MockGoerliBridge {
     }
 
     function unlockedOptimismETH() public {
-        if (optimismBridgeInstance.lockedForGoerliETH(msg.sender) <= goerliBridgedETH[msg.sender]) { revert bridgedAlready(); } 
-        uint sendETH = optimismBridgeInstance.lockedForGoerliETH(msg.sender)- goerliBridgedETH[msg.sender];
-        goerliBridgedETH[msg.sender] += sendETH;
-        payable(msg.sender).transfer(sendETH);
+        if (optimismBridgeInstance.last() < optimismBridgeInstance.first()) { revert queueIsEmpty(); } //Removed require for this since it costs less gas. 
+        
+        //MAYBE WE DON'T NEED THE STRUCT AND JUST LOOK AT QUEUE FOR LOCKED AMOUNT????
+        
+        // (address userToBridge, uint bridgeAmount) = goerliBridgeInstance.queue(goerliBridgeInstance.last());
+
+        address userToBridge = optimismBridgeInstance.queue(optimismBridgeInstance.last());
+                // (address userToBridge, uint bridgeAmount) = goerliBridgeInstance.queue(goerliBridgeInstance.last());
+        uint sendETH = optimismBridgeInstance.lockedForGoerliETH(userToBridge)- goerliBridgedETH[userToBridge];
+        goerliBridgedETH[userToBridge] += sendETH;
+        optimismBridgeInstance.dequeue();
+        payable(userToBridge).transfer(sendETH);
     }
 
     function ownerAddBridgeLiqudity() public payable {
@@ -76,7 +90,7 @@ contract MockGoerliBridge {
 
     function ownerRemoveBridgeLiqudity() public  {
         if (address(this).balance == 0) { revert bridgeEmpty(); } 
-        // if (false) { revert ownerBridgeUsersBeforeWithdraw(); } 
+        if (optimismBridgeInstance.last() >= optimismBridgeInstance.first()) { revert queueNotEmpty(); } //Removed require for this since it costs less gas. 
         payable(Owner).transfer(address(this).balance);
     }
 
@@ -104,6 +118,31 @@ contract MockOptimismBridge {
     
     MockGoerliBridge public goerliBridgeInstance;
 
+    mapping(uint => address) public queue; 
+
+    uint256 public last; //Do not declare 0 directly, will waste gas.
+    uint256 public first = 1; 
+
+
+
+
+    //private or internal???
+
+    function enqueue() public {
+        last += 1;
+        // queue[last].userToBridge = msg.sender;
+        // queue[last].bridgeAmount = bridgeAmount;
+        queue[last] = msg.sender;
+    }
+
+    function dequeue() public { //Removed return value, not needed.
+        if (last < first) { revert queueIsEmpty(); } //Removed require for this since it costs less gas. 
+        delete queue[first];
+        first += 1;
+    }
+
+    //private or internal???
+
     constructor() {
         Owner = msg.sender;
     }
@@ -112,6 +151,7 @@ contract MockOptimismBridge {
         if (bridgeAmount < 1000) { revert msgValueLessThan1000(); } 
         if (msg.value != (1003*bridgeAmount)/1000 ) { revert msgValueDoesNotCoverFee(); } 
         lockedForGoerliETH[msg.sender] += (1000*msg.value)/1003;
+        enqueue();
         payable(Owner).transfer(msg.value);
     }
 
@@ -148,22 +188,22 @@ contract MockOptimismBridge {
 
 }
 
-contract Queue { //Modified from //https://programtheblockchain.com/posts/2018/03/23/storage-patterns-stacks-queues-and-deques/
-    mapping(uint256 => address) public queue; 
+// contract Queue { //Modified from //https://programtheblockchain.com/posts/2018/03/23/storage-patterns-stacks-queues-and-deques/
+//     mapping(uint256 => address) public queue; 
 
-    uint256 public last; //Do not declare 0 directly, will waste gas.
-    uint256 public first = 1; 
+//     uint256 public last; //Do not declare 0 directly, will waste gas.
+//     uint256 public first = 1; 
 
-    error queueIsEmpty();
+//     error queueIsEmpty();
 
-    function enqueue(address Address) public {
-        last += 1;
-        queue[last] = Address;
-    }
+//     function enqueue(address Address) public {
+//         last += 1;
+//         queue[last] = Address;
+//     }
 
-    function dequeue() public { //Removed return value, not needed.
-        if (last < first) { revert queueIsEmpty(); } //Removed require for this since it costs less gas. 
-        delete queue[first];
-        first += 1;
-    }
-}
+//     function dequeue() public { //Removed return value, not needed.
+//         if (last < first) { revert queueIsEmpty(); } //Removed require for this since it costs less gas. 
+//         delete queue[first];
+//         first += 1;
+//     }
+// }
