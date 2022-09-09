@@ -26,12 +26,6 @@ contract MockGoerliBridge {
 
     MockOptimismBridge public optimismBridgeInstance;
 
-    // struct addressBridgeBalance{
-    //     address userToBridge;
-    //     uint bridgeAmount;
-    // }
-
-    // mapping(uint => addressBridgeBalance) public queue;
     mapping(uint => address) public queue; //Modified from //https://programtheblockchain.com/posts/2018/03/23/storage-patterns-stacks-queues-and-deques/
 
     uint256 public last; //Do not declare 0 directly, will waste gas.
@@ -39,8 +33,6 @@ contract MockGoerliBridge {
 
     function enqueue() private { //Should not be called outside of contract or by anyone else, private.
         last += 1;
-        // queue[last].userToBridge = msg.sender;
-        // queue[last].bridgeAmount = bridgeAmount;
         queue[last] = msg.sender;
     }
 
@@ -61,9 +53,6 @@ contract MockGoerliBridge {
     }
 
     function ownerUnlockOptimismETH() public {
-
-        //MAYBE WE DON'T NEED THE STRUCT AND JUST LOOK AT QUEUE FOR LOCKED AMOUNT????
-        // (address userToBridge, uint bridgeAmount) = goerliBridgeInstance.queue(goerliBridgeInstance.last());
         if (msg.sender != Owner) { revert notOwnerAddress(); }
         if (optimismBridgeInstance.last() < optimismBridgeInstance.first()) { revert queueIsEmpty(); } //Removed require for this since it costs less gas.
         address userToBridge = optimismBridgeInstance.queue(optimismBridgeInstance.last());

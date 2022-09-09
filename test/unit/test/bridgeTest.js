@@ -1,5 +1,7 @@
 const { expect } = require("chai");
-const { ethers } = require("hardhat");
+// const { ethers } = require("hardhat");
+const { ethers, waffle} = require("hardhat");
+const provider = waffle.provider;
 
 describe("Faucet Tests:", function () {
 
@@ -30,7 +32,7 @@ describe("Faucet Tests:", function () {
           });
        });
 
-       describe("mockOwnerOptimismBridgeAddress(address _token)", function () {
+       describe("mockOwnerOptimismBridgeAddress(address)", function () {
           it("Revert if msg.sender != Owner", async function () {
             await expect(
               MockGoerliBridgeDeployed.connect(addr1).mockOwnerOptimismBridgeAddress(MockOptimismBridgeDeployed.address)
@@ -44,7 +46,7 @@ describe("Faucet Tests:", function () {
 
         });
 
-        describe("mockOwnerGoerliBridgeAddress(address _token)", function () {
+        describe("mockOwnerGoerliBridgeAddress(address)", function () {
            it("Revert if relayAddress is not msg.sender", async function () {
              await expect(
                MockOptimismBridgeDeployed.connect(addr1).mockOwnerGoerliBridgeAddress(MockGoerliBridgeDeployed.address)
@@ -57,6 +59,64 @@ describe("Faucet Tests:", function () {
            });
 
          });
+
+         describe("ownerAddBridgeLiqudity()", function () {
+            it("Revert if relayAddress is not msg.sender", async function () {
+              await expect(
+                MockGoerliBridgeDeployed.connect(addr1).ownerAddBridgeLiqudity()
+              ).to.be.revertedWith("notOwnerAddress()");
+            });
+            it("Revert if MSG.VALUE == 0", async function () {
+              await expect(
+                MockGoerliBridgeDeployed.ownerAddBridgeLiqudity()
+              ).to.be.revertedWith("msgValueZero()");
+            });
+            it("Otherwise send MSG.VALUE to contract", async function () {
+               const transaction = await MockGoerliBridgeDeployed
+                .ownerAddBridgeLiqudity({
+                  value: "1003",
+                });
+              const tx_receipt = await transaction.wait();
+              expect(await provider.getBalance(MockGoerliBridgeDeployed.address) ).to.equal("1003");
+            });
+
+          });
+
+          describe("ownerAddBridgeLiqudity()", function () {
+             it("Revert if relayAddress is not msg.sender", async function () {
+               await expect(
+                 MockOptimismBridgeDeployed.connect(addr1).ownerAddBridgeLiqudity()
+               ).to.be.revertedWith("notOwnerAddress()");
+             });
+             it("Revert if MSG.VALUE == 0", async function () {
+               await expect(
+                 MockOptimismBridgeDeployed.ownerAddBridgeLiqudity()
+               ).to.be.revertedWith("msgValueZero()");
+             });
+             it("Otherwise send MSG.VALUE to contract", async function () {
+                const transaction = await MockOptimismBridgeDeployed
+                 .ownerAddBridgeLiqudity({
+                   value: "1003",
+                 });
+               const tx_receipt = await transaction.wait();
+               expect(await provider.getBalance(MockOptimismBridgeDeployed.address) ).to.equal("1003");
+             });
+
+           });
+
+//
+//          const transaction = await electricKeeperDeployed
+//   .connect(buyer1)
+//   .BuyElectricityTimeOn(7, 1, {
+//     value: ethers.utils.parseEther(maticPrice.toString()),
+//   });
+// const tx_receipt = await transaction.wait();
+
+
+
+
+
+
 
        // describe("withdrawDirect()", function () {
        //     it("Revert if no LINK in faucet", async function () {
