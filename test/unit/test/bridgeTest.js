@@ -187,25 +187,50 @@ describe("Faucet Tests:", function () {
                     MockGoerliBridgeDeployed.ownerRemoveBridgeLiqudity()
                   ).to.be.revertedWith("bridgeEmpty()");
                 });
-                it("Otherwise send MSG.VALUE to contract", async function () {
-                  const transaction = await MockGoerliBridgeDeployed
+                it("Cannot withdraw if user on other contract queue, need to bridge them first.", async function () {
+                  const transactionCallAPI = await MockGoerliBridgeDeployed
                     .ownerAddBridgeLiqudity({
                       value: "1000",
                     });
-                  const tx_receipt = await transaction.wait();
+
+                  const tx_receiptCallAPI = await transactionCallAPI.wait();
                   expect(await provider.getBalance(MockGoerliBridgeDeployed.address) ).to.equal("1000");
 
-                  const transactionCallAPI = await MockGoerliBridgeDeployed.ownerRemoveBridgeLiqudity()
-                  const tx_receiptCallAPI = await transactionCallAPI.wait();
-                  //
-                  // expect(await provider.getBalance(MockGoerliBridgeDeployed.address) ).to.equal("0");
+                  const transactionCallAPI2 = await MockOptimismBridgeDeployed.mockOwnerGoerliBridgeAddress(MockGoerliBridgeDeployed.address);
+                  const tx_receiptCallAPI2 = await transactionCallAPI2.wait();
+                  expect(await MockOptimismBridgeDeployed.goerliBridgeInstance()).to.equal(MockGoerliBridgeDeployed.address);
+
+                  const transactionCallAPI3 = await MockGoerliBridgeDeployed.mockOwnerOptimismBridgeAddress(MockOptimismBridgeDeployed.address);
+                  const tx_receiptCallAPI3 = await transactionCallAPI3.wait();
+                  expect(await MockGoerliBridgeDeployed.optimismBridgeInstance()).to.equal(MockOptimismBridgeDeployed.address);
+
+                  const transactionCallAPI4 = await MockOptimismBridgeDeployed.connect(addr1).lockTokensForGoerli("1000", {value: "1003"})
+                  const tx_receiptCallAPI4 = await transactionCallAPI3.wait();
+
+                  await expect(
+                    MockGoerliBridgeDeployed.ownerRemoveBridgeLiqudity()
+                  ).to.be.revertedWith("queueNotEmpty()");
 
                 });
-                // it("If msg.sender == Owner, update bridge address", async function () {
-                //   const transactionCallAPI = await MockOptimismBridgeDeployed.mockOwnerGoerliBridgeAddress(MockGoerliBridgeDeployed.address);
-                //   const tx_receiptCallAPI = await transactionCallAPI.wait();
-                //   expect(await MockOptimismBridgeDeployed.goerliBridgeInstance()).to.equal(MockGoerliBridgeDeployed.address);
-                // });
+                it("Valid withdraw", async function () {
+                  const transactionCallAPI = await MockGoerliBridgeDeployed
+                    .ownerAddBridgeLiqudity({
+                      value: "1000",
+                    });
+
+                  const tx_receiptCallAPI = await transactionCallAPI.wait();
+                  expect(await provider.getBalance(MockGoerliBridgeDeployed.address) ).to.equal("1000");
+
+                  const transactionCallAPI2 = await MockGoerliBridgeDeployed.mockOwnerOptimismBridgeAddress(MockOptimismBridgeDeployed.address);
+                  const tx_receiptCallAPI2 = await transactionCallAPI2.wait();
+                  expect(await MockGoerliBridgeDeployed.optimismBridgeInstance()).to.equal(MockOptimismBridgeDeployed.address);
+
+                  const transactionCallAPI3 = await MockGoerliBridgeDeployed.ownerRemoveBridgeLiqudity()
+                  const tx_receiptCallAPI3 = await transactionCallAPI3.wait();
+
+                  expect(await provider.getBalance(MockGoerliBridgeDeployed.address) ).to.equal("0");
+
+                });
 
               });
 
@@ -220,25 +245,51 @@ describe("Faucet Tests:", function () {
                      MockOptimismBridgeDeployed.ownerRemoveBridgeLiqudity()
                    ).to.be.revertedWith("bridgeEmpty()");
                  });
-                 it("Otherwise send MSG.VALUE to contract", async function () {
-                   const transaction = await MockOptimismBridgeDeployed
+                 it("Cannot withdraw if user on other contract queue, need to bridge them first.", async function () {
+                   const transactionCallAPI = await MockOptimismBridgeDeployed
                      .ownerAddBridgeLiqudity({
                        value: "1000",
                      });
-                   const tx_receipt = await transaction.wait();
+
+                   const tx_receiptCallAPI = await transactionCallAPI.wait();
                    expect(await provider.getBalance(MockOptimismBridgeDeployed.address) ).to.equal("1000");
 
-                   const transactionCallAPI = await MockOptimismBridgeDeployed.ownerRemoveBridgeLiqudity()
-                   const tx_receiptCallAPI = await transactionCallAPI.wait();
-                   //
-                   // expect(await provider.getBalance(MockGoerliBridgeDeployed.address) ).to.equal("0");
+                   const transactionCallAPI2 = await MockOptimismBridgeDeployed.mockOwnerGoerliBridgeAddress(MockGoerliBridgeDeployed.address);
+                   const tx_receiptCallAPI2 = await transactionCallAPI2.wait();
+                   expect(await MockOptimismBridgeDeployed.goerliBridgeInstance()).to.equal(MockGoerliBridgeDeployed.address);
+
+                   const transactionCallAPI3 = await MockGoerliBridgeDeployed.mockOwnerOptimismBridgeAddress(MockOptimismBridgeDeployed.address);
+                   const tx_receiptCallAPI3 = await transactionCallAPI3.wait();
+                   expect(await MockGoerliBridgeDeployed.optimismBridgeInstance()).to.equal(MockOptimismBridgeDeployed.address);
+
+                   const transactionCallAPI4 = await MockGoerliBridgeDeployed.connect(addr1).lockTokensForOptimism("1000", {value: "1003"})
+                   const tx_receiptCallAPI4 = await transactionCallAPI3.wait();
+
+                   await expect(
+                     MockOptimismBridgeDeployed.ownerRemoveBridgeLiqudity()
+                   ).to.be.revertedWith("queueNotEmpty()");
 
                  });
-                 // it("If msg.sender == Owner, update bridge address", async function () {
-                 //   const transactionCallAPI = await MockOptimismBridgeDeployed.mockOwnerGoerliBridgeAddress(MockGoerliBridgeDeployed.address);
-                 //   const tx_receiptCallAPI = await transactionCallAPI.wait();
-                 //   expect(await MockOptimismBridgeDeployed.goerliBridgeInstance()).to.equal(MockGoerliBridgeDeployed.address);
-                 // });
+                 it("Valid withdraw", async function () {
+                   const transactionCallAPI = await MockOptimismBridgeDeployed
+                     .ownerAddBridgeLiqudity({
+                       value: "1000",
+                     });
+
+                   const tx_receiptCallAPI = await transactionCallAPI.wait();
+                   expect(await provider.getBalance(MockOptimismBridgeDeployed.address) ).to.equal("1000");
+
+                   const transactionCallAPI2 = await MockOptimismBridgeDeployed.mockOwnerGoerliBridgeAddress(MockGoerliBridgeDeployed.address);
+                   const tx_receiptCallAPI2 = await transactionCallAPI2.wait();
+                   expect(await MockOptimismBridgeDeployed.goerliBridgeInstance()).to.equal(MockGoerliBridgeDeployed.address);
+
+                   const transactionCallAPI3 = await MockOptimismBridgeDeployed.ownerRemoveBridgeLiqudity()
+                   const tx_receiptCallAPI3 = await transactionCallAPI3.wait();
+
+                   expect(await provider.getBalance(MockOptimismBridgeDeployed.address) ).to.equal("0");
+
+                 });
+
 
                });
 
