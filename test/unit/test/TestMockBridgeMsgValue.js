@@ -3,7 +3,7 @@ const { expect } = require("chai");
 const { ethers, waffle} = require("hardhat");
 const provider = waffle.provider;
 
-describe("Faucet Tests:", function () {
+describe("MockBridgeMsgValue Tests:", function () {
 
       let MockGoerliBridge;
       let MockGoerliBridgeDeployed;

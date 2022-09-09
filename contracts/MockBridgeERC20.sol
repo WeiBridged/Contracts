@@ -29,7 +29,7 @@ contract MATIC is ERC20{
 
 contract ERC20TokenContractMATIC is ERC20("Matic","MATIC") {}
 
-contract MockGoerliBridge {
+contract MockGoerliBridgeERC20 {
 
     address public immutable Owner;
 
