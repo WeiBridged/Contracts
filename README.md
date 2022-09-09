@@ -18,7 +18,7 @@
 
 -MSG.VALUE to ERC-20 token address logic (unique on each chain)
 
--Writing scripts to call contracts between local node / Quicknode / Infura endpoints
+-Writing scripts to call contracts between local node / Quicknode / Infura endpoints in either Go, web3.py or web3.js
 
 -Hardhat unit testing mock contracts
 
