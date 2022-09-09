@@ -23,11 +23,36 @@ contract GoerliBridge {
 
     MockOptimismBridge public optimismBridgeInstance;    
 
+    struct addressBridgeBalance{
+        address userToBridge;
+        uint bridgeAmount;
+    }
+
+    mapping(uint256 => addressBridgeBalance) public queue; 
+
+    uint256 public last; //Do not declare 0 directly, will waste gas.
+    uint256 public first = 1; 
+
+    error queueIsEmpty();
+
+    function enqueue(uint bridgeAmount) public {
+        last += 1;
+        queue[last].userToBridge = msg.sender;
+        queue[last].bridgeAmount = bridgeAmount;
+    }
+
+    function dequeue() public { //Removed return value, not needed.
+        if (last < first) { revert queueIsEmpty(); } //Removed require for this since it costs less gas. 
+        delete queue[first];
+        first += 1;
+    }
+
     function lockTokensForOptimism(uint bridgeAmount) public payable {
         if (bridgeAmount < 1000) { revert msgValueLessThan1000(); } 
         if (msg.value != (1003*bridgeAmount)/1000 ) { revert msgValueDoesNotCoverFee(); } 
         // if (address(optimismBridgeInstance).balance < bridgeAmount) { revert bridgeOnOtherSideNeedsLiqudity(); } 
         lockedForOptimismETH[msg.sender] += (1000*msg.value)/1003;
+        enqueue(bridgeAmount);
         payable(Owner).transfer(msg.value);
     }
 
