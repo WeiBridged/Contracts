@@ -37,8 +37,8 @@ contract MockGoerliBridge {
     }
 
     function dequeue() external { //Gets called by the other bridge contract, external.
-        if (address(optimismBridgeInstance) == address(0) || msg.sender != address(optimismBridgeInstance)) { revert notExternalBridge(); } //Protect function external with owner call
-        if (last < first) { revert queueIsEmpty(); } //Removed require for this since it costs less gas.
+        if (address(optimismBridgeInstance) == address(0) || msg.sender != address(optimismBridgeInstance) || last < first) { revert notExternalBridge(); } //Protect function external with owner call
+        // if (last < first) { revert queueIsEmpty(); } //Removed require for this since it costs less gas.
         delete queue[first];
         first += 1;
     }
@@ -111,8 +111,8 @@ contract MockOptimismBridge {
     }
 
     function dequeue() external { //Removed return value, not needed.
-        if (address(goerliBridgeInstance) == address(0) || msg.sender != address(goerliBridgeInstance) ) { revert notExternalBridge(); } //Protect function external with owner call
-        if (last < first) { revert queueIsEmpty(); } //Removed require for this since it costs less gas.
+        if (address(goerliBridgeInstance) == address(0) || msg.sender != address(goerliBridgeInstance) || last < first ) { revert notExternalBridge(); } //Protect function external with owner call
+        // if (last < first) { revert queueIsEmpty(); } //Removed require for this since it costs less gas.
         delete queue[first];
         first += 1;
     }
