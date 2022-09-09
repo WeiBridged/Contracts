@@ -2,6 +2,8 @@
 
 ## WeiBridged
 
+:warning: When you deploy mock contracts, update the contracts to point at each other's addresses with functions like "mockOwnerOptimismBridgeAddress".  :warning:
+
 :green_circle: Completed:
 
 -MSG.VALUE to MSG.VALUE bridge logic
