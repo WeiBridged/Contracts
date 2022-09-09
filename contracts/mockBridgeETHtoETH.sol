@@ -13,7 +13,9 @@ contract GoerliBridge {
     error msgValueDoesNotCoverFee(); 
     error notOwnerAddress();
     error bridgedAlready();
+    error bridgeOnOtherSideNeedsLiqudity();
     error bridgeEmpty();
+    error ownerBridgeUsersBeforeWithdraw();
 
     constructor() {
         Owner = msg.sender;
@@ -24,6 +26,7 @@ contract GoerliBridge {
     function lockTokensForOptimism(uint bridgeAmount) public payable {
         if (bridgeAmount < 1000) { revert msgValueLessThan1000(); } 
         if (msg.value != (1003*bridgeAmount)/1000 ) { revert msgValueDoesNotCoverFee(); } 
+        // if (address(optimismBridgeInstance).balance < bridgeAmount) { revert bridgeOnOtherSideNeedsLiqudity(); } 
         lockedForOptimismETH[msg.sender] += (1000*msg.value)/1003;
         payable(Owner).transfer(msg.value);
     }
@@ -42,6 +45,7 @@ contract GoerliBridge {
 
     function ownerRemoveBridgeLiqudity() public  {
         if (address(this).balance == 0) { revert bridgeEmpty(); } 
+        // if (false) { revert ownerBridgeUsersBeforeWithdraw(); } 
         payable(Owner).transfer(address(this).balance);
     }
 
@@ -101,4 +105,24 @@ contract MockOptimismBridge {
         goerliBridgeInstance = GoerliBridge(_token); 
     }
 
+}
+
+contract Queue { //Modified from //https://programtheblockchain.com/posts/2018/03/23/storage-patterns-stacks-queues-and-deques/
+    mapping(uint256 => address) public queue; 
+
+    uint256 public first = 1; 
+    uint256 public last = 0;
+
+    error queueIsEmpty();
+
+    function enqueue(address Address) public {
+        last += 1;
+        queue[last] = Address;
+    }
+
+    function dequeue() public {
+        if (last < first) { revert queueIsEmpty(); }
+        delete queue[first];
+        first += 1;
+    }
 }
