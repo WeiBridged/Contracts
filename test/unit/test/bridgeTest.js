@@ -78,10 +78,10 @@ describe("Faucet Tests:", function () {
             it("Otherwise send MSG.VALUE to contract", async function () {
                const transaction = await MockGoerliBridgeDeployed
                 .ownerAddBridgeLiqudity({
-                  value: "1003",
+                  value: "1000",
                 });
               const tx_receipt = await transaction.wait();
-              expect(await provider.getBalance(MockGoerliBridgeDeployed.address) ).to.equal("1003");
+              expect(await provider.getBalance(MockGoerliBridgeDeployed.address) ).to.equal("1000");
             });
 
           });
@@ -100,10 +100,10 @@ describe("Faucet Tests:", function () {
              it("Otherwise send MSG.VALUE to contract", async function () {
                 const transaction = await MockOptimismBridgeDeployed
                  .ownerAddBridgeLiqudity({
-                   value: "1003",
+                   value: "1000",
                  });
                const tx_receipt = await transaction.wait();
-               expect(await provider.getBalance(MockOptimismBridgeDeployed.address) ).to.equal("1003");
+               expect(await provider.getBalance(MockOptimismBridgeDeployed.address) ).to.equal("1000");
              });
 
            });
@@ -114,27 +114,67 @@ describe("Faucet Tests:", function () {
                   MockGoerliBridgeDeployed.connect(addr1).lockTokensForOptimism(0)
                 ).to.be.revertedWith("msgValueLessThan1000()");
               });
-              it("Revert if MSG.VALUE < 1000", async function () {
+              it("Revert if MSG.VALUE != (1003*bridgeAmount)/1000", async function () {
                 await expect(
                   MockGoerliBridgeDeployed.connect(addr1).lockTokensForOptimism(1000)
                 ).to.be.revertedWith("msgValueDoesNotCoverFee()");
               });
-              it("Revert if MSG.VALUE < 1000", async function () {
+              it("Revert if bridge on other side has no funds.", async function () {
                 await expect(
                   MockGoerliBridgeDeployed.connect(addr1).lockTokensForOptimism(1000, {value: "1003"})
                 ).to.be.revertedWith("bridgeOnOtherSideNeedsLiqudity()");
               });
-              // it("Otherwise send MSG.VALUE to contract", async function () {
-              //    const transaction = await MockOptimismBridgeDeployed
-              //     .ownerAddBridgeLiqudity({
-              //       value: "1003",
-              //     });
-              //   const tx_receipt = await transaction.wait();
-              //   expect(await provider.getBalance(MockOptimismBridgeDeployed.address) ).to.equal("1003");
-              // });
+              it("Allow user to bridge after we set bridge address and send it enough funds.", async function () {
+                const transactionCallAPI = await MockGoerliBridgeDeployed.mockOwnerOptimismBridgeAddress(MockOptimismBridgeDeployed.address);
+                const tx_receiptCallAPI = await transactionCallAPI.wait();
+                expect(await MockGoerliBridgeDeployed.optimismBridgeInstance()).to.equal(MockOptimismBridgeDeployed.address);
 
+                const transactionCallAPI2 = await MockOptimismBridgeDeployed
+                 .ownerAddBridgeLiqudity({
+                   value: "1000",
+                 });
+               const tx_receiptCallAPI2 = await transactionCallAPI2.wait();
+               expect(await provider.getBalance(MockOptimismBridgeDeployed.address) ).to.equal("1000");
+
+               const transactionCallAPI3 = await MockGoerliBridgeDeployed.connect(addr1).lockTokensForOptimism("1000", {value: "1003"})
+               const tx_receiptCallAPI3 = await transactionCallAPI3.wait();
+
+              });
             });
 
+            describe("lockTokensForGoerli(bridgeAmount)", function () {
+               it("Revert if MSG.VALUE < 1000", async function () {
+                 await expect(
+                   MockOptimismBridgeDeployed.connect(addr1).lockTokensForGoerli(0)
+                 ).to.be.revertedWith("msgValueLessThan1000()");
+               });
+               it("Revert if MSG.VALUE != (1003*bridgeAmount)/1000", async function () {
+                 await expect(
+                   MockOptimismBridgeDeployed.connect(addr1).lockTokensForGoerli(1000)
+                 ).to.be.revertedWith("msgValueDoesNotCoverFee()");
+               });
+               it("Revert if bridge on other side has no funds.", async function () {
+                 await expect(
+                   MockOptimismBridgeDeployed.connect(addr1).lockTokensForGoerli(1000, {value: "1003"})
+                 ).to.be.revertedWith("bridgeOnOtherSideNeedsLiqudity()");
+               });
+               it("Allow user to bridge after we set bridge address and send it enough funds.", async function () {
+                 const transactionCallAPI = await MockOptimismBridgeDeployed.mockOwnerGoerliBridgeAddress(MockGoerliBridgeDeployed.address);
+                 const tx_receiptCallAPI = await transactionCallAPI.wait();
+                 expect(await MockOptimismBridgeDeployed.goerliBridgeInstance()).to.equal(MockGoerliBridgeDeployed.address);
+
+                 const transactionCallAPI2 = await MockGoerliBridgeDeployed
+                  .ownerAddBridgeLiqudity({
+                    value: "1000",
+                  });
+                const tx_receiptCallAPI2 = await transactionCallAPI2.wait();
+                expect(await provider.getBalance(MockGoerliBridgeDeployed.address) ).to.equal("1000");
+
+                const transactionCallAPI3 = await MockOptimismBridgeDeployed.connect(addr1).lockTokensForGoerli("1000", {value: "1003"})
+                const tx_receiptCallAPI3 = await transactionCallAPI3.wait();
+
+               });
+             });
 
 //
 //          const transaction = await electricKeeperDeployed

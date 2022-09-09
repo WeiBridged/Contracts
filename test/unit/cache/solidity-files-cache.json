@@ -240,7 +240,7 @@
       ]
     },
     "/home/marcuswentz/github/Contracts/test/unit/contracts/MockBridge.sol": {
-      "lastModificationDate": 1662748604627,
+      "lastModificationDate": 1662749536515,
       "contentHash": "6c063412e4b67cadaca593ac1dcebf05",
       "sourceName": "contracts/MockBridge.sol",
       "solcConfig": {
