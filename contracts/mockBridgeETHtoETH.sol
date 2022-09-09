@@ -3,15 +3,17 @@ pragma solidity 0.8.17;
 
 contract GoerliBridge {
 
+    address public immutable Owner;    
+
     mapping(address => uint) public lockedForOptimismETH;
     mapping(address => uint) public goerliBridgedETH;
 
     error msgValueZero(); //Using custom errors with revert saves gas compared to using require. 
+    error msgValueLessThan1000(); 
+    error msgValueDoesNotCoverFee(); 
     error notOwnerAddress();
     error bridgedAlready();
-
-    address public immutable Owner;    
-    // address public 
+    error bridgeEmpty();
 
     constructor() {
         Owner = msg.sender;
@@ -19,9 +21,10 @@ contract GoerliBridge {
 
     MockOptimismBridge public optimismBridgeInstance;    
 
-    function lockTokensForOptimism() public payable {
-        if (msg.value == 0) { revert msgValueZero(); } 
-        lockedForOptimismETH[msg.sender] += msg.value;
+    function lockTokensForOptimism(uint bridgeAmount) public payable {
+        if (bridgeAmount < 1000) { revert msgValueLessThan1000(); } 
+        if (msg.value != (1003*bridgeAmount)/1000 ) { revert msgValueDoesNotCoverFee(); } 
+        lockedForOptimismETH[msg.sender] += (1000*msg.value)/1003;
         payable(Owner).transfer(msg.value);
     }
 
@@ -37,13 +40,14 @@ contract GoerliBridge {
         if (msg.value == 0) { revert msgValueZero(); } 
     }
 
-    // function ownerRemoveBridgeLiqudity() public  {
-    //     payable(Owner).transfer(1);
-    // }
+    function ownerRemoveBridgeLiqudity() public  {
+        if (address(this).balance == 0) { revert bridgeEmpty(); } 
+        payable(Owner).transfer(address(this).balance);
+    }
 
     function mockOwnerOptimismBridgeAddress(address _token) public{
         if (msg.sender != Owner) { revert notOwnerAddress(); } 
-        optimismBridgeInstance = MockOptimismBridge(_token); //ERC20 token address goes here.;
+        optimismBridgeInstance = MockOptimismBridge(_token); 
     }
 
 }
@@ -56,8 +60,11 @@ contract MockOptimismBridge {
     mapping(address => uint) public optimismBridgedETH;
     
     error msgValueZero(); //Using custom errors with revert saves gas compared to using require. 
+    error msgValueLessThan1000(); 
+    error msgValueDoesNotCoverFee(); 
     error notOwnerAddress();
     error bridgedAlready();
+    error bridgeEmpty();
 
     GoerliBridge public goerliBridgeInstance;
 
@@ -65,9 +72,10 @@ contract MockOptimismBridge {
         Owner = msg.sender;
     }
 
-    function lockTokensForGoerli() public payable {
-        if (msg.value == 0) { revert msgValueZero(); } 
-        lockedForGoerliETH[msg.sender] += msg.value;
+    function lockTokensForGoerli(uint bridgeAmount) public payable {
+        if (bridgeAmount < 1000) { revert msgValueLessThan1000(); } 
+        if (msg.value != (1003*bridgeAmount)/1000 ) { revert msgValueDoesNotCoverFee(); } 
+        lockedForGoerliETH[msg.sender] += (1000*msg.value)/1003;
         payable(Owner).transfer(msg.value);
     }
 
@@ -83,9 +91,14 @@ contract MockOptimismBridge {
         if (msg.value == 0) { revert msgValueZero(); } 
     }
 
+    function ownerRemoveBridgeLiqudity() public  {
+        if (address(this).balance == 0) { revert bridgeEmpty(); } 
+        payable(Owner).transfer(address(this).balance);
+    }
+
     function mockOwnerOptimismBridgeAddress(address _token) public{
         if (msg.sender != Owner) { revert notOwnerAddress(); } 
-        goerliBridgeInstance = GoerliBridge(_token); //ERC20 token address goes here.;
+        goerliBridgeInstance = GoerliBridge(_token); 
     }
 
 }
