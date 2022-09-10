@@ -16,13 +16,13 @@
 
 -Tested example queue logic library in contract
 
--Hardhat unit test mock ETH to ETH contract
+-Hardhat unit test mock :
+
+MSG.VALUE to MSG.VALUE
+
+MSG.VALUE to WRAPPED
 
 :red_circle: In progress:
-
--MSG.VALUE to ERC-20 token address logic (unique on each chain)
-
--Hardhat unit test mock ETH to ETH contract
 
 -Writing scripts to call contracts between local node / Quicknode / Infura endpoints in either Go, web3.py or web3.js
 

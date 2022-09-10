@@ -1,10 +1,49 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/home/marcuswentz/github/Contracts/test/unit/contracts/MockBridgeMsgERC20.sol": {
-      "lastModificationDate": 1662771073443,
+    "/home/marcuswentz/github/Contracts/test/unit/contracts/MockBridgeMsgValue.sol": {
+      "lastModificationDate": 1662771598992,
+      "contentHash": "9a9b98ac3fb24c88b498b245c4304b2e",
+      "sourceName": "contracts/MockBridgeMsgValue.sol",
+      "solcConfig": {
+        "version": "0.8.17",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": false
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "0.8.17"
+      ],
+      "artifacts": [
+        "MockGoerliBridge",
+        "MockOptimismBridge"
+      ]
+    },
+    "/home/marcuswentz/github/Contracts/test/unit/contracts/MockBridgeWrapped.sol": {
+      "lastModificationDate": 1662771784067,
       "contentHash": "8de42d49b63d75b9ec540cab9853d512",
-      "sourceName": "contracts/MockBridgeMsgERC20.sol",
+      "sourceName": "contracts/MockBridgeWrapped.sol",
       "solcConfig": {
         "version": "0.8.17",
         "settings": {
@@ -202,45 +241,6 @@
       ],
       "artifacts": [
         "Context"
-      ]
-    },
-    "/home/marcuswentz/github/Contracts/test/unit/contracts/MockBridgeMsgValue.sol": {
-      "lastModificationDate": 1662771598992,
-      "contentHash": "9a9b98ac3fb24c88b498b245c4304b2e",
-      "sourceName": "contracts/MockBridgeMsgValue.sol",
-      "solcConfig": {
-        "version": "0.8.17",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "metadata": {
-            "useLiteralContent": false
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "0.8.17"
-      ],
-      "artifacts": [
-        "MockGoerliBridge",
-        "MockOptimismBridge"
       ]
     }
   }
