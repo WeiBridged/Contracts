@@ -28,8 +28,6 @@ MSG.VALUE to WRAPPED
 
 #### Goerli
 
-Register: 
-
 https://keepers.chain.link/goerli/48616257745580902469494598694032950747167863357880398634778718972681967731889
 
 Automated Unlock Tx:
