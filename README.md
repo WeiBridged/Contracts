@@ -47,3 +47,7 @@ Shardeum (SHM)
 ## Bridge design patterns
 
 https://ethereum.org/en/developers/docs/bridges/#how-do-bridges-work
+
+## Hardhat Testing
+
+<img src="https://github.com/WeiBridged/Contracts/blob/main/test/unit/hardhatLog.png" alt="HardhatTest"/>
