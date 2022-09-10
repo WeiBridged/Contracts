@@ -66,18 +66,13 @@ https://goerli.etherscan.io/address/0xd00fcf4b79d6911f54989280b132aad21b0d2438
 
 Optimism to Goerli
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+https://blockscout.com/optimism/goerli/address/0x82Fa8539F40F7317CEd662130d1F98eE1DE687a2/transactions#address-tabs
 
 ## :red_circle: In progress:
 
 -Writing scripts to call contracts between local node / Quicknode / Infura endpoints in either Go, web3.py or web3.js
 
 -Deploy contracts to:
-
-Goerli (ETH)
-
-Optimism (ETH),
 
 Aurora (ETH),
 
