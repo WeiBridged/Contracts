@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/home/marcuswentz/github/Contracts/test/unit/contracts/MockBridgeMsgERC20.sol": {
-      "lastModificationDate": 1662763157090,
-      "contentHash": "7d47bd189a43e41dfc16d93885b5ee10",
+      "lastModificationDate": 1662771073443,
+      "contentHash": "8de42d49b63d75b9ec540cab9853d512",
       "sourceName": "contracts/MockBridgeMsgERC20.sol",
       "solcConfig": {
         "version": "0.8.17",
@@ -205,7 +205,7 @@
       ]
     },
     "/home/marcuswentz/github/Contracts/test/unit/contracts/MockBridgeMsgValue.sol": {
-      "lastModificationDate": 1662763568618,
+      "lastModificationDate": 1662771598992,
       "contentHash": "9a9b98ac3fb24c88b498b245c4304b2e",
       "sourceName": "contracts/MockBridgeMsgValue.sol",
       "solcConfig": {
