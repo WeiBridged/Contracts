@@ -161,7 +161,7 @@ contract MockMumbaiBridge is KeeperCompatibleInterface {
     }
 
     // function ownerUnlockOptimismETH() public {
-        function automateUnlockOptimismETH() public {
+    function automateUnlockOptimismETH() public {
         // if (msg.sender != Owner) { revert notOwnerAddress(); }
         // if (address(goerliBridgeInstance) == address(0) || goerliBridgeInstance.last() < goerliBridgeInstance.first()) { revert queueIsEmpty(); } //Removed require for this since it costs less gas.
         address userToBridge = goerliBridgeInstance.queue(goerliBridgeInstance.last());
