@@ -1,8 +1,6 @@
-# contracts
+# WeiBridged contracts
 
-## WeiBridged
-
-:green_circle: Completed:
+## :green_circle: Completed:
 
 -MSG.VALUE to MSG.VALUE bridge logic
 
@@ -61,7 +59,7 @@ https://goerli.etherscan.io/tx/0xf4a389c0624e029cac3f91d303553dc823238d72a8d49a6
 ## :warning: Ideally we use CCIP and Chainlink Keepers, but CCIP is still in development as of writing. :warning:
 
 
-:red_circle: In progress:
+## :red_circle: In progress:
 
 -Writing scripts to call contracts between local node / Quicknode / Infura endpoints in either Go, web3.py or web3.js
 
