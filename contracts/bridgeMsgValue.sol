@@ -58,7 +58,7 @@ contract GoerliBridge {
         // if (address(optimismBridgeInstance) == address(0) || optimismBridgeInstance.last() < optimismBridgeInstance.first()) { revert queueIsEmpty(); } //Removed require for this since it costs less gas.
         // address userToBridge = optimismBridgeInstance.queue(optimismBridgeInstance.last());
         // optimismBridgeInstance.dequeue(); //Only this contract address set from the other contract from owner can call this function.
-        dequeue();
+        // dequeue();
         uint sendETH = lockedForGoerliETH- goerliBridgedETH[userToBridge];
         goerliBridgedETH[userToBridge] += sendETH;
         payable(userToBridge).transfer(sendETH);
