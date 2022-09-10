@@ -58,6 +58,16 @@ https://goerli.etherscan.io/tx/0xf4a389c0624e029cac3f91d303553dc823238d72a8d49a6
 
 ## :warning: Ideally we use CCIP and Chainlink Keepers, but CCIP is still in development as of writing. :warning:
 
+## WeiBridged 
+
+Goerli to Optimism
+
+https://goerli.etherscan.io/address/0xd00fcf4b79d6911f54989280b132aad21b0d2438
+
+Optimism to Goerli
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 
 ## :red_circle: In progress:
 
