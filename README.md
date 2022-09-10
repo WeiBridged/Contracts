@@ -22,7 +22,7 @@ MSG.VALUE to MSG.VALUE
 
 MSG.VALUE to WRAPPED
 
-## Chainlink Keepers Automated Unlock Mock Contracts:
+## Chainlink Keepers Automated Unlock Mock Contracts on Goerli:
 
 ### Goerli
 
@@ -34,7 +34,7 @@ Automated Unlock Tx:
 
 https://goerli.etherscan.io/tx/0x8d9db9495aaea27994f71e4af74bfea829d9f97c182f4fd78f60cdac99a12364
 
-### Optimism
+### Mock Optimism
 
 https://keepers.chain.link/goerli/48616257745580902469494598694032950747167863357880398634778718972681967731889
 
