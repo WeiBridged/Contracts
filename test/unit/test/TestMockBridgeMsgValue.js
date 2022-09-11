@@ -108,7 +108,7 @@ describe("MockBridgeMsgValue Tests:", function () {
 
            });
 
-           describe("ownerUnlockOptimismETH(bridgeAmount)", function () {
+           describe("ownerUnlockOptimismETH()", function () {
               it("Revert if MSG.VALUE != 1003", async function () {
                 await expect(
                   MockGoerliBridgeDeployed.connect(addr1).lockTokensForOptimism()
@@ -134,7 +134,7 @@ describe("MockBridgeMsgValue Tests:", function () {
                const transactionCallAPI3 = await MockGoerliBridgeDeployed.connect(addr1).lockTokensForOptimism({value: "1003"})
                const tx_receiptCallAPI3 = await transactionCallAPI3.wait();
 
-               //Fail if we ask to lock funds again if we don't have more funds added.
+               //Revert if we ask to lock funds again if we don't have more funds added.
                await expect(
                  MockGoerliBridgeDeployed.connect(addr1).lockTokensForOptimism({value: "1003"})
                ).to.be.revertedWith("bridgeOnOtherSideNeedsLiqudity()");
@@ -142,7 +142,7 @@ describe("MockBridgeMsgValue Tests:", function () {
               });
             });
 
-            describe("lockTokensForGoerli(bridgeAmount)", function () {
+            describe("lockTokensForGoerli()", function () {
                it("Revert if MSG.VALUE != 1003", async function () {
                  await expect(
                    MockOptimismBridgeDeployed.connect(addr1).lockTokensForGoerli()
@@ -168,7 +168,7 @@ describe("MockBridgeMsgValue Tests:", function () {
                 const transactionCallAPI3 = await MockOptimismBridgeDeployed.connect(addr1).lockTokensForGoerli({value: "1003"})
                 const tx_receiptCallAPI3 = await transactionCallAPI3.wait();
 
-                //Fail if we ask to lock funds again if we don't have more funds added.
+                //Revert if we ask to lock funds again if we don't have more funds added.
                 await expect(
                   MockOptimismBridgeDeployed.connect(addr1).lockTokensForGoerli({value: "1003"})
                 ).to.be.revertedWith("bridgeOnOtherSideNeedsLiqudity()");

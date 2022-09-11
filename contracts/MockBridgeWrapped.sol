@@ -33,12 +33,8 @@ contract MockGoerliBridgeERC20 {
 
     address public immutable Owner;
 
-    mapping(address => uint) public lockedForOptimismETH;
-    mapping(address => uint) public goerliBridgedETH;
-
     error msgValueZero(); //Using custom errors with revert saves gas compared to using require.
-    error msgValueLessThan1000();
-    error msgValueDoesNotCoverFee();
+    error msgValueNot1003();
     error notOwnerAddress();
     error bridgedAlready();
     error bridgeOnOtherSideNeedsLiqudity();
@@ -76,11 +72,9 @@ contract MockGoerliBridgeERC20 {
         first += 1;
     }
 
-    function lockTokensForOptimism(uint bridgeAmount) public payable {
-        if (bridgeAmount < 1000) { revert msgValueLessThan1000(); }
-        if (msg.value != (1003*bridgeAmount)/1000 ) { revert msgValueDoesNotCoverFee(); }
-        if (address(mumbaiBridgeInstance) == address(0) || callWETH.balanceOf(address(mumbaiBridgeInstance)) < bridgeAmount ) { revert bridgeOnOtherSideNeedsLiqudity(); }
-        lockedForOptimismETH[msg.sender] += (1000*msg.value)/1003;
+    function lockTokensForOptimism() public payable {
+        if (msg.value != 1003 ) { revert msgValueNot1003(); }
+        if (address(mumbaiBridgeInstance) == address(0) || (((last+2)-first)*1000) > callWETH.balanceOf(address(mumbaiBridgeInstance))  ) { revert bridgeOnOtherSideNeedsLiqudity(); }
         enqueue();
         payable(Owner).transfer(msg.value);
     }
@@ -90,9 +84,7 @@ contract MockGoerliBridgeERC20 {
         if (address(mumbaiBridgeInstance) == address(0) || mumbaiBridgeInstance.last() < mumbaiBridgeInstance.first()) { revert queueIsEmpty(); } //Removed require for this since it costs less gas.
         address userToBridge = mumbaiBridgeInstance.queue(mumbaiBridgeInstance.last());
         mumbaiBridgeInstance.dequeue(); //Only this contract address set from the other contract from owner can call this function.
-        uint sendERC20 = mumbaiBridgeInstance.lockedForGoerliETH(userToBridge)- goerliBridgedETH[userToBridge];
-        goerliBridgedETH[userToBridge] += sendERC20;
-        callMATIC.transfer(userToBridge,sendERC20);
+        callMATIC.transfer(userToBridge,1000);
     }
 
     function ownerRemoveBridgeLiqudity() public  {
@@ -113,12 +105,8 @@ contract MockMumbaiBridge {
 
     address public immutable Owner;
 
-    mapping(address => uint) public lockedForGoerliETH;
-    mapping(address => uint) public optimismBridgedETH;
-
     error msgValueZero(); //Using custom errors with revert saves gas compared to using require.
-    error msgValueLessThan1000();
-    error msgValueDoesNotCoverFee();
+    error msgValueNot1003();
     error notOwnerAddress();
     error bridgeEmpty();
     error queueIsEmpty();
@@ -154,11 +142,9 @@ contract MockMumbaiBridge {
         callWETH = ERC20TokenContractWETH(addressWETH); //ERC20 token address goes here.
     }
 
-    function lockTokensForGoerli(uint bridgeAmount) public payable {
-        if (bridgeAmount < 1000) { revert msgValueLessThan1000(); }
-        if (msg.value != (1003*bridgeAmount)/1000 ) { revert msgValueDoesNotCoverFee(); }
-        if (address(goerliBridgeInstance) == address(0) || callMATIC.balanceOf(address(goerliBridgeInstance)) < bridgeAmount ) { revert bridgeOnOtherSideNeedsLiqudity(); }
-        lockedForGoerliETH[msg.sender] += (1000*msg.value)/1003;
+    function lockTokensForGoerli() public payable {
+        if (msg.value != 1003 ) { revert msgValueNot1003(); }
+        if (address(goerliBridgeInstance) == address(0) || (((last+2)-first)*1000) > callMATIC.balanceOf(address(goerliBridgeInstance))  ) { revert bridgeOnOtherSideNeedsLiqudity(); }
         enqueue();
         payable(Owner).transfer(msg.value);
     }
@@ -168,9 +154,7 @@ contract MockMumbaiBridge {
         if (address(goerliBridgeInstance) == address(0) || goerliBridgeInstance.last() < goerliBridgeInstance.first()) { revert queueIsEmpty(); } //Removed require for this since it costs less gas.
         address userToBridge = goerliBridgeInstance.queue(goerliBridgeInstance.last());
         goerliBridgeInstance.dequeue(); //Only this contract address set from the other contract from owner can call this function.
-        uint sendERC20 = goerliBridgeInstance.lockedForOptimismETH(userToBridge)- optimismBridgedETH[userToBridge];
-        optimismBridgedETH[userToBridge] += sendERC20;
-        callWETH.transfer(userToBridge,sendERC20);
+        callWETH.transfer(userToBridge,1000);
     }
 
     function ownerRemoveBridgeLiqudity() public  {
@@ -178,7 +162,6 @@ contract MockMumbaiBridge {
         if (callWETH.balanceOf(address(this)) == 0) { revert bridgeEmpty(); }
         if (address(goerliBridgeInstance) == address(0) || goerliBridgeInstance.last() >= goerliBridgeInstance.first()) { revert queueNotEmpty(); } //Removed require for this since it costs less gas.
         callWETH.transfer(Owner,callWETH.balanceOf(address(this)));
-
     }
 
     function mockOwnerGoerliBridgeAddress(address _token) public{

@@ -41,8 +41,8 @@
       ]
     },
     "/home/marcuswentz/github/Contracts/test/unit/contracts/MockBridgeWrapped.sol": {
-      "lastModificationDate": 1662932272672,
-      "contentHash": "8de42d49b63d75b9ec540cab9853d512",
+      "lastModificationDate": 1662940382143,
+      "contentHash": "76e5664b94a7817366b69d4bc254f873",
       "sourceName": "contracts/MockBridgeWrapped.sol",
       "solcConfig": {
         "version": "0.8.17",
