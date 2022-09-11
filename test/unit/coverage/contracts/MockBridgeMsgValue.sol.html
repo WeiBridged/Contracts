@@ -22,12 +22,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>52/52</span>
+        <span class='fraction'>44/44</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>48/48</span>
+        <span class='fraction'>44/44</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>54/54</span>
+        <span class='fraction'>46/46</span>
       </div>
     </div>
   </div>
@@ -189,21 +189,7 @@
 144
 145
 146
-147
-148
-149
-150
-151
-152
-153
-154
-155
-156
-157
-158
-159
-160
-161</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+147</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -223,10 +209,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">108×</span>
+<span class="cline-any cline-yes">102×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -251,8 +234,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6×</span>
 <span class="cline-any cline-yes">5×</span>
-<span class="cline-any cline-yes">4×</span>
-<span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -260,8 +241,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
@@ -308,9 +287,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -323,14 +299,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">108×</span>
+<span class="cline-any cline-yes">102×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6×</span>
 <span class="cline-any cline-yes">5×</span>
-<span class="cline-any cline-yes">4×</span>
-<span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -338,8 +312,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
@@ -370,11 +342,8 @@ contract MockGoerliBridge {
 &nbsp;
     address public immutable Owner;
 &nbsp;
-    mapping(address =&gt; uint) public lockedForOptimismETH;
-    mapping(address =&gt; uint) public goerliBridgedETH;
-&nbsp;
     error msgValueZero(); //Using custom errors with revert saves gas compared to using require.
-    error msgValueLessThan1000();
+    error msgValueNot1003();
     error msgValueDoesNotCoverFee();
     error notOwnerAddress();
     error bridgedAlready();
@@ -408,11 +377,9 @@ contract MockGoerliBridge {
         first += 1;
     }
 &nbsp;
-    function lockTokensForOptimism(uint bridgeAmount) public payable {
-        if (bridgeAmount &lt; 1000) { revert msgValueLessThan1000(); }
-        if (msg.value != (1003*bridgeAmount)/1000 ) { revert msgValueDoesNotCoverFee(); }
-        if (address(optimismBridgeInstance) == address(0) || address(optimismBridgeInstance).balance &lt; bridgeAmount ) { revert bridgeOnOtherSideNeedsLiqudity(); }
-        lockedForOptimismETH[msg.sender] += (1000*msg.value)/1003;
+    function lockTokensForOptimism() public payable {
+        if (msg.value != 1003 ) { revert msgValueNot1003(); }
+        if (address(optimismBridgeInstance) == address(0) || (((last+2)-first)*1000) &gt; address(optimismBridgeInstance).balance  ) { revert bridgeOnOtherSideNeedsLiqudity(); }
         enqueue();
         payable(Owner).transfer(msg.value);
     }
@@ -422,9 +389,7 @@ contract MockGoerliBridge {
         if (address(optimismBridgeInstance) == address(0) || optimismBridgeInstance.last() &lt; optimismBridgeInstance.first()) { revert queueIsEmpty(); } //Removed require for this since it costs less gas.
         address userToBridge = optimismBridgeInstance.queue(optimismBridgeInstance.last());
         optimismBridgeInstance.dequeue(); //Only this contract address set from the other contract from owner can call this function.
-        uint sendETH = optimismBridgeInstance.lockedForGoerliETH(userToBridge)- goerliBridgedETH[userToBridge];
-        goerliBridgedETH[userToBridge] += sendETH;
-        payable(userToBridge).transfer(sendETH);
+        payable(userToBridge).transfer(1000);
     }
 &nbsp;
     function ownerAddBridgeLiqudity() public payable {
@@ -450,11 +415,8 @@ contract MockOptimismBridge {
 &nbsp;
     address public immutable Owner;
 &nbsp;
-    mapping(address =&gt; uint) public lockedForGoerliETH;
-    mapping(address =&gt; uint) public optimismBridgedETH;
-&nbsp;
     error msgValueZero(); //Using custom errors with revert saves gas compared to using require.
-    error msgValueLessThan1000();
+    error msgValueNot1003();
     error msgValueDoesNotCoverFee();
     error notOwnerAddress();
     error bridgeEmpty();
@@ -486,11 +448,9 @@ contract MockOptimismBridge {
         Owner = msg.sender;
     }
 &nbsp;
-    function lockTokensForGoerli(uint bridgeAmount) public payable {
-        if (bridgeAmount &lt; 1000) { revert msgValueLessThan1000(); }
-        if (msg.value != (1003*bridgeAmount)/1000 ) { revert msgValueDoesNotCoverFee(); }
-        if (address(goerliBridgeInstance) == address(0) || address(goerliBridgeInstance).balance &lt; bridgeAmount ) { revert bridgeOnOtherSideNeedsLiqudity(); }
-        lockedForGoerliETH[msg.sender] += (1000*msg.value)/1003;
+    function lockTokensForGoerli() public payable {
+        if (msg.value != 1003 ) { revert msgValueNot1003(); }
+        if (address(goerliBridgeInstance) == address(0) || (((last+2)-first)*1000) &gt; address(goerliBridgeInstance).balance  ) { revert bridgeOnOtherSideNeedsLiqudity(); }
         enqueue();
         payable(Owner).transfer(msg.value);
     }
@@ -500,9 +460,7 @@ contract MockOptimismBridge {
         if (address(goerliBridgeInstance) == address(0) || goerliBridgeInstance.last() &lt; goerliBridgeInstance.first()) { revert queueIsEmpty(); } //Removed require for this since it costs less gas.
         address userToBridge = goerliBridgeInstance.queue(goerliBridgeInstance.last());
         goerliBridgeInstance.dequeue(); //Only this contract address set from the other contract from owner can call this function.
-        uint sendETH = goerliBridgeInstance.lockedForOptimismETH(userToBridge)- optimismBridgedETH[userToBridge];
-        optimismBridgedETH[userToBridge] += sendETH;
-        payable(userToBridge).transfer(sendETH);
+        payable(userToBridge).transfer(1000);
     }
 &nbsp;
     function ownerAddBridgeLiqudity() public payable {
@@ -529,7 +487,7 @@ contract MockOptimismBridge {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Sep 09 2022 21:08:10 GMT-0400 (Eastern Daylight Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Sep 11 2022 19:11:50 GMT-0400 (Eastern Daylight Time)
 </div>
 </div>
 <script src="../prettify.js"></script>
