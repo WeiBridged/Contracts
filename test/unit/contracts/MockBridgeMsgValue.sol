@@ -7,7 +7,6 @@ contract MockGoerliBridge {
 
     error msgValueZero(); //Using custom errors with revert saves gas compared to using require.
     error msgValueNot1003();
-    error msgValueDoesNotCoverFee();
     error notOwnerAddress();
     error bridgedAlready();
     error bridgeOnOtherSideNeedsLiqudity();
@@ -80,7 +79,6 @@ contract MockOptimismBridge {
 
     error msgValueZero(); //Using custom errors with revert saves gas compared to using require.
     error msgValueNot1003();
-    error msgValueDoesNotCoverFee();
     error notOwnerAddress();
     error bridgeEmpty();
     error queueIsEmpty();

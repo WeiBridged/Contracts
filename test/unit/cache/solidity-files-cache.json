@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/home/marcuswentz/github/Contracts/test/unit/contracts/MockBridgeMsgValue.sol": {
-      "lastModificationDate": 1662932313017,
-      "contentHash": "f82a7116c1f61c566b42a508ef241815",
+      "lastModificationDate": 1662938815719,
+      "contentHash": "e70d0992b6d5041819688c5a4d0422f5",
       "sourceName": "contracts/MockBridgeMsgValue.sol",
       "solcConfig": {
         "version": "0.8.17",
