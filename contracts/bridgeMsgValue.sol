@@ -1,16 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 
-contract GoerliBridge {
+contract MockGoerliBridge {
 
     address public immutable Owner;
 
-    mapping(address => uint) public lockedForOptimismETH;
-    mapping(address => uint) public goerliBridgedETH;
-
     error msgValueZero(); //Using custom errors with revert saves gas compared to using require.
-    error msgValueLessThan1000();
-    error msgValueDoesNotCoverFee();
+    error msgValueNot1003();
     error notOwnerAddress();
     error bridgedAlready();
     error bridgeOnOtherSideNeedsLiqudity();
@@ -24,8 +20,6 @@ contract GoerliBridge {
         Owner = msg.sender;
     }
 
-    // MockOptimismBridge public optimismBridgeInstance;
-
     mapping(uint => address) public queue; //Modified from //https://programtheblockchain.com/posts/2018/03/23/storage-patterns-stacks-queues-and-deques/
 
     uint256 public last; //Do not declare 0 directly, will waste gas.
@@ -36,7 +30,7 @@ contract GoerliBridge {
         queue[last] = msg.sender;
     }
 
-    function dequeue() public { 
+    function dequeue() external { //Gets called by the other bridge contract, external.
         // if (address(optimismBridgeInstance) == address(0) || msg.sender != address(optimismBridgeInstance) || last < first) { revert notExternalBridge(); } //Protect function external with owner call
         if (msg.sender != Owner) { revert notOwnerAddress(); }
         if (last < first) { revert queueIsEmpty(); } //Removed require for this since it costs less gas.
@@ -44,23 +38,19 @@ contract GoerliBridge {
         first += 1;
     }
 
-    function lockTokensForOptimism(uint bridgeAmount) public payable {
-        if (bridgeAmount < 1000) { revert msgValueLessThan1000(); }
-        if (msg.value != (1003*bridgeAmount)/1000 ) { revert msgValueDoesNotCoverFee(); }
-        // if (address(optimismBridgeInstance) == address(0) || address(optimismBridgeInstance).balance < bridgeAmount ) { revert bridgeOnOtherSideNeedsLiqudity(); }
-        lockedForOptimismETH[msg.sender] += (1000*msg.value)/1003;
+    function lockTokensForOptimism() public payable {
+        if (msg.value != 1003 ) { revert msgValueNot1003(); }
+        // if (address(optimismBridgeInstance) == address(0) || (((last+2)-first)*1000) > address(optimismBridgeInstance).balance  ) { revert bridgeOnOtherSideNeedsLiqudity(); }
         enqueue();
         payable(Owner).transfer(msg.value);
     }
 
-    function ownerUnlockGoerliETH(address userToBridge, uint lockedForGoerliETH) public {
+    function ownerUnlockGoerliETH(address userToBridge) public {
         if (msg.sender != Owner) { revert notOwnerAddress(); }
         // if (address(optimismBridgeInstance) == address(0) || optimismBridgeInstance.last() < optimismBridgeInstance.first()) { revert queueIsEmpty(); } //Removed require for this since it costs less gas.
         // address userToBridge = optimismBridgeInstance.queue(optimismBridgeInstance.last());
         // optimismBridgeInstance.dequeue(); //Only this contract address set from the other contract from owner can call this function.
-        uint sendETH = lockedForGoerliETH- goerliBridgedETH[userToBridge];
-        goerliBridgedETH[userToBridge] += sendETH;
-        payable(userToBridge).transfer(sendETH);
+        payable(userToBridge).transfer(1000);
     }
 
     function ownerAddBridgeLiqudity() public payable {
@@ -77,24 +67,18 @@ contract GoerliBridge {
 
 }
 
-contract OptimismBridge {
+contract MockOptimismBridge {
 
     address public immutable Owner;
 
-    mapping(address => uint) public lockedForGoerliETH;
-    mapping(address => uint) public optimismBridgedETH;
-
     error msgValueZero(); //Using custom errors with revert saves gas compared to using require.
-    error msgValueLessThan1000();
-    error msgValueDoesNotCoverFee();
+    error msgValueNot1003();
     error notOwnerAddress();
     error bridgeEmpty();
     error queueIsEmpty();
     error queueNotEmpty();
     error notExternalBridge();
     error bridgeOnOtherSideNeedsLiqudity();
-
-    // MockGoerliBridge public goerliBridgeInstance;
 
     mapping(uint => address) public queue;
 
@@ -106,7 +90,7 @@ contract OptimismBridge {
         queue[last] = msg.sender;
     }
 
-    function dequeue() public { //Removed return value, not needed.
+    function dequeue() external { //Removed return value, not needed.
         // if (address(goerliBridgeInstance) == address(0) || msg.sender != address(goerliBridgeInstance) || last < first ) { revert notExternalBridge(); } //Protect function external with owner call
         if (msg.sender != Owner) { revert notOwnerAddress(); }
         if (last < first) { revert queueIsEmpty(); } //Removed require for this since it costs less gas.
@@ -118,23 +102,19 @@ contract OptimismBridge {
         Owner = msg.sender;
     }
 
-    function lockTokensForGoerli(uint bridgeAmount) public payable {
-        if (bridgeAmount < 1000) { revert msgValueLessThan1000(); }
-        if (msg.value != (1003*bridgeAmount)/1000 ) { revert msgValueDoesNotCoverFee(); }
-        // if (address(goerliBridgeInstance) == address(0) || address(goerliBridgeInstance).balance < bridgeAmount ) { revert bridgeOnOtherSideNeedsLiqudity(); }
-        lockedForGoerliETH[msg.sender] += (1000*msg.value)/1003;
+    function lockTokensForGoerli() public payable {
+        if (msg.value != 1003 ) { revert msgValueNot1003(); }
+        // if (address(goerliBridgeInstance) == address(0) || (((last+2)-first)*1000) > address(goerliBridgeInstance).balance  ) { revert bridgeOnOtherSideNeedsLiqudity(); }
         enqueue();
         payable(Owner).transfer(msg.value);
     }
 
-    function ownerUnlockOptimismETH(address userToBridge, uint lockedForOptimismETH) public {
+    function ownerUnlockOptimismETH(address userToBridge) public {
         if (msg.sender != Owner) { revert notOwnerAddress(); }
         // if (address(goerliBridgeInstance) == address(0) || goerliBridgeInstance.last() < goerliBridgeInstance.first()) { revert queueIsEmpty(); } //Removed require for this since it costs less gas.
         // address userToBridge = goerliBridgeInstance.queue(goerliBridgeInstance.last());
         // goerliBridgeInstance.dequeue(); //Only this contract address set from the other contract from owner can call this function.
-        uint sendETH = lockedForOptimismETH- optimismBridgedETH[userToBridge];
-        optimismBridgedETH[userToBridge] += sendETH;
-        payable(userToBridge).transfer(sendETH);
+        payable(userToBridge).transfer(1000);
     }
 
     function ownerAddBridgeLiqudity() public payable {
