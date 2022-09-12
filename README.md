@@ -60,13 +60,15 @@ https://goerli.etherscan.io/tx/0x9f85aa14eae532d1a7952b7eb0d5bf8acd50b12e314d972
 
 ## WeiBridged 
 
-Goerli to Optimism
+Goerli and Optimism
 
-https://goerli.etherscan.io/address/0xd00fcf4b79d6911f54989280b132aad21b0d2438
+https://goerli.etherscan.io/address/0xaED1aC1429EAB4569e218b2aD1A585146fCdE061
+https://blockscout.com/optimism/goerli/address/0xf5f1e4510B7c1645491285eBb9F762E371884B45
 
-Optimism to Goerli
+Goerli and Mumbai 
 
-https://blockscout.com/optimism/goerli/address/0x82Fa8539F40F7317CEd662130d1F98eE1DE687a2/transactions#address-tabs
+https://goerli.etherscan.io/address/0xe33EE68Fc5477Ea95F4897b67d3E763b7F74FC52
+https://mumbai.polygonscan.com/address/0xb7307ddd7c370a309db38243258318cbb5e1860c
 
 ## :red_circle: In progress:
 
@@ -75,8 +77,6 @@ https://blockscout.com/optimism/goerli/address/0x82Fa8539F40F7317CEd662130d1F98e
 -Deploy contracts to:
 
 Aurora (ETH),
-
-Polygon (MATIC),
 
 Oasis (ROSE),
 
