@@ -38,25 +38,23 @@ Automated Unlock Tx:
 
 https://goerli.etherscan.io/tx/0x549282792805cc202bb1fe02fbe927f25895ef93e134ef24bd87009157d780d5
 
-:red_cirlce: UPDATE WRAPPED CHAINLINK KEEPERS :red_circle:
-
 ### Wrapped
 
 #### Goerli MATIC
 
-https://keepers.chain.link/goerli/35090611049909459392773534208222747826595105798904996239807988228673707197528
+https://keepers.chain.link/goerli/44672928778541736436187787576552467984358095279622653917887023890049197297829
 
 Automated Unlock Tx:
 
-https://goerli.etherscan.io/tx/0xaf4c9f641b93515bf0ac46d57a55c40533a430dd96401b437cd36e176d8bdb14
+https://goerli.etherscan.io/tx/0x952bb7909626b4417151475492bd393605ed5b67cbb33312c3867bd109a4215a
 
 #### Mock Mumbai WETH
 
-https://keepers.chain.link/goerli/15805420323940780469410680538856219599627703238119380930616723455732843521194
+https://keepers.chain.link/goerli/51328062644048824879005793848957573415939904013643902837116609648852103753257
 
 Automated Unlock Tx:
 
-https://goerli.etherscan.io/tx/0xf4a389c0624e029cac3f91d303553dc823238d72a8d49a67f154df0942c643de
+https://goerli.etherscan.io/tx/0x9f85aa14eae532d1a7952b7eb0d5bf8acd50b12e314d9725f58ff864e507ad0b
 
 ## :warning: Ideally we use CCIP and Chainlink Keepers, but CCIP is still in development as of writing. :warning:
 
