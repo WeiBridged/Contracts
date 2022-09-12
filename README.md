@@ -72,8 +72,6 @@ https://mumbai.polygonscan.com/address/0xb7307ddd7c370a309db38243258318cbb5e1860
 
 ## :red_circle: In progress:
 
--Writing scripts to call contracts between local node / Quicknode / Infura endpoints in either Go, web3.py or web3.js
-
 -Deploy contracts to:
 
 Aurora (ETH),
@@ -86,12 +84,12 @@ Skale (????????),
 
 Shardeum (SHM)
 
-## Bridge design patterns
-
-https://ethereum.org/en/developers/docs/bridges/#how-do-bridges-work
-
 ## Hardhat Testing
 
 :warning: When you deploy mock contracts, update the contracts to point at each other's addresses with functions like "mockOwnerOptimismBridgeAddress".  :warning:
 
 <img src="https://github.com/WeiBridged/Contracts/blob/main/test/unit/hardhatLog.png" alt="HardhatTest"/>
+
+## Bridge design patterns research
+
+https://ethereum.org/en/developers/docs/bridges/#how-do-bridges-work
