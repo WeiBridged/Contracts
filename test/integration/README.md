@@ -1,4 +1,4 @@
-See the following links for integraiton testing:
+See the following links for integration testing:
 
 -https://github.com/WeiBridged/BridgeCommunication
 
