@@ -71,7 +71,9 @@ https://goerli.etherscan.io/address/0xe33EE68Fc5477Ea95F4897b67d3E763b7F74FC52
 https://mumbai.polygonscan.com/address/0xb7307ddd7c370a309db38243258318cbb5e1860c
 
 
-Presentation: https://docs.google.com/presentation/d/1HV73K2lnuzfmi5FZIEtFoYzBK6tn95W-jIeFuBpkRb0/edit?usp=sharing
+## 📷 Presentation: 
+
+https://docs.google.com/presentation/d/1HV73K2lnuzfmi5FZIEtFoYzBK6tn95W-jIeFuBpkRb0/edit?usp=sharing
 
 ## :red_circle: In progress:
 
