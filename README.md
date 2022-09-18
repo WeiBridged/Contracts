@@ -70,6 +70,11 @@ Goerli and Mumbai
 https://goerli.etherscan.io/address/0xe33EE68Fc5477Ea95F4897b67d3E763b7F74FC52
 https://mumbai.polygonscan.com/address/0xb7307ddd7c370a309db38243258318cbb5e1860c
 
+Goerli and Aurora
+
+https://testnet.aurorascan.dev/tx/0xf18c3d0a986fd87a9ca2ccc2558d7f09d5cb517dcb7b6d7a3d92089cf600e0ab
+[pending] https://goerli.etherscan.io/address/0x84959b9c82fa26fe95ba5c7ebe21a409b501a742
+
 
 ## 📷 Presentation Slides: 
 
@@ -79,7 +84,6 @@ https://docs.google.com/presentation/d/1HV73K2lnuzfmi5FZIEtFoYzBK6tn95W-jIeFuBpk
 
 -Deploy contracts to:
 
-Aurora (ETH),
 
 Oasis (ROSE),
 
