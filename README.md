@@ -80,10 +80,10 @@ https://testnet.explorer.emerald.oasis.dev/tx/0x31eb91142cfe745e7c5a5bcfe9559c5b
 https://goerli.etherscan.io/address/0xde89f4557a7a224cb7d7d361477ca8e96b3b0be7
 
 Cronos Testnet(TCRO)
-???
-???
+https://cronos.org/explorer/testnet3/tx/0x54151ff05bba7ef24adcc5cddc522830acf207e212ee14e0346722cf362e57c1
+https://goerli.etherscan.io/address/0x834665566fbc3a9127c939bea8230fcd44ede4db
 
-Shardeum Liberty 2.0 and Ethereum Goerli 
+Shardeum Liberty 2.0 and Ethereum Goerli [some contracts need EIP-2930 accessList address and storage data to work on other shards!]
 https://explorer.liberty20.shardeum.org/account/0x9e5fb5182000b8b21b16d62fc2d04148613ca7b1?page=1
 https://goerli.etherscan.io/tx/0x85c213f0f417e7b3a387300706d8404f15e81e934ae89871f2cd54805f86b66d
 
