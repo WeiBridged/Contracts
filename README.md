@@ -1,7 +1,5 @@
 # WeiBridged contracts
 
-## :green_circle: Completed:
-
 -MSG.VALUE to MSG.VALUE bridge logic
 
 -Queue in Solidity pushes new user who locked tokens, then serves them first to be bridged, then removed from queue (Goerli to Optimism path)
