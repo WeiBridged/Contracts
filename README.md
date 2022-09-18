@@ -60,38 +60,45 @@ https://goerli.etherscan.io/tx/0x9f85aa14eae532d1a7952b7eb0d5bf8acd50b12e314d972
 
 ## WeiBridged 
 
-Goerli and Optimism
+Optimism Goerli and Ethereum Goerli
 
 https://goerli.etherscan.io/address/0xaED1aC1429EAB4569e218b2aD1A585146fCdE061
 https://blockscout.com/optimism/goerli/address/0xf5f1e4510B7c1645491285eBb9F762E371884B45
 
-Goerli and Mumbai 
+Polygon Mumbai and Ethereum Goerli
 
 https://goerli.etherscan.io/address/0xe33EE68Fc5477Ea95F4897b67d3E763b7F74FC52
 https://mumbai.polygonscan.com/address/0xb7307ddd7c370a309db38243258318cbb5e1860c
 
-Goerli and Aurora
+⚠️ We did not write the Golang communication for the chains below and we assume MSG.VALUE == MSG.VALUE. Cotract logic should be the same with MSG.VALUE == MSG.VALUE . ⚠️
+
+Aurora Testnet and Ethereum Goerli
 
 https://testnet.aurorascan.dev/tx/0xf18c3d0a986fd87a9ca2ccc2558d7f09d5cb517dcb7b6d7a3d92089cf600e0ab
 [pending] https://goerli.etherscan.io/address/0x84959b9c82fa26fe95ba5c7ebe21a409b501a742
 
+Oasis Testnet and Ethereum Goerli
+???
+???
+
+Cronos Testnet(TCRO)
+???
+???
+
+Shardeum Liberty 2.0 and Ethereum Goerli 
+https://explorer.liberty20.shardeum.org/account/0x9e5fb5182000b8b21b16d62fc2d04148613ca7b1?page=1
+https://goerli.etherscan.io/tx/0x85c213f0f417e7b3a387300706d8404f15e81e934ae89871f2cd54805f86b66d
+
+🔴
+
+Skale (????????),
+
+🔴
 
 ## 📷 Presentation Slides: 
 
 https://docs.google.com/presentation/d/1HV73K2lnuzfmi5FZIEtFoYzBK6tn95W-jIeFuBpkRb0/edit?usp=sharing
 
-## :red_circle: In progress:
-
--Deploy contracts to:
-
-
-Oasis (ROSE),
-
-Cronos (TCRO),
-
-Skale (????????),
-
-Shardeum (SHM)
 
 ## Hardhat Testing
 
