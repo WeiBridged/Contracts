@@ -68,15 +68,15 @@ Polygon Mumbai and Ethereum Goerli
 https://goerli.etherscan.io/address/0xe33EE68Fc5477Ea95F4897b67d3E763b7F74FC52
 https://mumbai.polygonscan.com/address/0xb7307ddd7c370a309db38243258318cbb5e1860c
 
-⚠️ We did not write the Golang communication for the chains below and we assume MSG.VALUE == MSG.VALUE. Cotract logic should be the same with MSG.VALUE == MSG.VALUE . ⚠️
+⚠️ We did not write the Golang communication for the chains below and we assume MSG.VALUE == MSG.VALUE. Cotract logic should be the same with MSG.VALUE == MSG.VALUE. If we had more time during the ETHOnline 2022 hackathon we would write out all logic for each RPC chain. ⚠️
 
 Aurora Testnet and Ethereum Goerli
 
 https://testnet.aurorascan.dev/tx/0xf18c3d0a986fd87a9ca2ccc2558d7f09d5cb517dcb7b6d7a3d92089cf600e0ab
 [pending] https://goerli.etherscan.io/address/0x84959b9c82fa26fe95ba5c7ebe21a409b501a742
 
-Oasis Testnet and Ethereum Goerli
-???
+Oasis emerald Testnet and Ethereum Goerli
+https://testnet.explorer.emerald.oasis.dev/tx/0x31eb91142cfe745e7c5a5bcfe9559c5b544df3a395c870d597753524beb90460/internal-transactions
 ???
 
 Cronos Testnet(TCRO)
