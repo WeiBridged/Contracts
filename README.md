@@ -77,7 +77,7 @@ https://testnet.aurorascan.dev/tx/0xf18c3d0a986fd87a9ca2ccc2558d7f09d5cb517dcb7b
 
 Oasis emerald Testnet and Ethereum Goerli
 https://testnet.explorer.emerald.oasis.dev/tx/0x31eb91142cfe745e7c5a5bcfe9559c5b544df3a395c870d597753524beb90460/internal-transactions
-???
+https://goerli.etherscan.io/address/0xde89f4557a7a224cb7d7d361477ca8e96b3b0be7
 
 Cronos Testnet(TCRO)
 ???
