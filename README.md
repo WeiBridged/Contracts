@@ -72,8 +72,9 @@ https://mumbai.polygonscan.com/address/0xb7307ddd7c370a309db38243258318cbb5e1860
 
 Aurora Testnet and Ethereum Goerli
 
-https://testnet.aurorascan.dev/tx/0xf18c3d0a986fd87a9ca2ccc2558d7f09d5cb517dcb7b6d7a3d92089cf600e0ab
-[pending] https://goerli.etherscan.io/address/0x84959b9c82fa26fe95ba5c7ebe21a409b501a742
+[pending 1] https://testnet.aurorascan.dev/tx/0xf18c3d0a986fd87a9ca2ccc2558d7f09d5cb517dcb7b6d7a3d92089cf600e0ab
+[pending 2] https://testnet.aurorascan.dev/tx/0x79e06d16d98ff3408fa79249d6e6f9f816b82c4cfbe907e036474fdbbba0e543
+https://goerli.etherscan.io/address/0x84959b9c82fa26fe95ba5c7ebe21a409b501a742
 
 Oasis emerald Testnet and Ethereum Goerli
 https://testnet.explorer.emerald.oasis.dev/tx/0x31eb91142cfe745e7c5a5bcfe9559c5b544df3a395c870d597753524beb90460/internal-transactions
