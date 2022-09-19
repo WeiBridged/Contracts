@@ -80,7 +80,7 @@ https://goerli.etherscan.io/address/0x84959b9c82fa26fe95ba5c7ebe21a409b501a742
 
 Oasis emerald Testnet and Ethereum Goerli
 
-https://testnet.explorer.emerald.oasis.dev/tx/0x31eb91142cfe745e7c5a5bcfe9559c5b544df3a395c870d597753524beb90460/internal-transactions
+https://testnet.explorer.emerald.oasis.dev/address/0xbFB26279a9D28CeC1F781808Da89eFbBfE2c4268/transactions
 https://goerli.etherscan.io/address/0xde89f4557a7a224cb7d7d361477ca8e96b3b0be7
 
 Cronos Testnet(TCRO)
