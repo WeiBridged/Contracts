@@ -73,18 +73,23 @@ https://mumbai.polygonscan.com/address/0xb7307ddd7c370a309db38243258318cbb5e1860
 Aurora Testnet and Ethereum Goerli
 
 [pending 1] https://testnet.aurorascan.dev/tx/0xf18c3d0a986fd87a9ca2ccc2558d7f09d5cb517dcb7b6d7a3d92089cf600e0ab
+
 [pending 2] https://testnet.aurorascan.dev/tx/0x79e06d16d98ff3408fa79249d6e6f9f816b82c4cfbe907e036474fdbbba0e543
+
 https://goerli.etherscan.io/address/0x84959b9c82fa26fe95ba5c7ebe21a409b501a742
 
 Oasis emerald Testnet and Ethereum Goerli
+
 https://testnet.explorer.emerald.oasis.dev/tx/0x31eb91142cfe745e7c5a5bcfe9559c5b544df3a395c870d597753524beb90460/internal-transactions
 https://goerli.etherscan.io/address/0xde89f4557a7a224cb7d7d361477ca8e96b3b0be7
 
 Cronos Testnet(TCRO)
-https://cronos.org/explorer/testnet3/tx/0x54151ff05bba7ef24adcc5cddc522830acf207e212ee14e0346722cf362e57c1
+
+https://cronos.org/explorer/testnet3/address/0xbFB26279a9D28CeC1F781808Da89eFbBfE2c4268
 https://goerli.etherscan.io/address/0x834665566fbc3a9127c939bea8230fcd44ede4db
 
 Shardeum Liberty 2.0 and Ethereum Goerli [some contracts need EIP-2930 accessList address and storage data to work on other shards!]
+
 https://explorer.liberty20.shardeum.org/account/0x9e5fb5182000b8b21b16d62fc2d04148613ca7b1?page=1
 https://goerli.etherscan.io/tx/0x85c213f0f417e7b3a387300706d8404f15e81e934ae89871f2cd54805f86b66d
 
