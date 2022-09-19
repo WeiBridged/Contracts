@@ -72,7 +72,7 @@ https://goerli.etherscan.io/address/0xe33EE68Fc5477Ea95F4897b67d3E763b7F74FC52
 
 Aurora Testnet and Ethereum Goerli
 
-https://testnet.aurorascan.dev/tx/0x79e06d16d98ff3408fa79249d6e6f9f816b82c4cfbe907e036474fdbbba0e543
+https://testnet.aurorascan.dev/address/0x8bac6b3b0e8989496b0fa7c242d52908aeedcc36
 https://goerli.etherscan.io/address/0x84959b9c82fa26fe95ba5c7ebe21a409b501a742
 
 Oasis emerald Testnet and Ethereum Goerli
