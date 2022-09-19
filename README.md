@@ -60,13 +60,13 @@ https://goerli.etherscan.io/tx/0x9f85aa14eae532d1a7952b7eb0d5bf8acd50b12e314d972
 
 Optimism Goerli and Ethereum Goerli
 
-https://goerli.etherscan.io/address/0xaED1aC1429EAB4569e218b2aD1A585146fCdE061
 https://blockscout.com/optimism/goerli/address/0xf5f1e4510B7c1645491285eBb9F762E371884B45
+https://goerli.etherscan.io/address/0xaED1aC1429EAB4569e218b2aD1A585146fCdE061
 
 Polygon Mumbai and Ethereum Goerli
 
-https://goerli.etherscan.io/address/0xe33EE68Fc5477Ea95F4897b67d3E763b7F74FC52
 https://mumbai.polygonscan.com/address/0xb7307ddd7c370a309db38243258318cbb5e1860c
+https://goerli.etherscan.io/address/0xe33EE68Fc5477Ea95F4897b67d3E763b7F74FC52
 
 ⚠️ We did not write the Golang communication for the chains below and we assume MSG.VALUE == MSG.VALUE. Cotract logic should be the same with MSG.VALUE == MSG.VALUE. If we had more time during the ETHOnline 2022 hackathon we would write out all logic for each RPC chain. ⚠️
 
