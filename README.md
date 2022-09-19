@@ -99,6 +99,10 @@ Skale (????????),
 
 🔴
 
+## 📹 Video presentation:
+
+https://www.youtube.com/watch?v=Wa6Rxjkdzpo&feature=youtu.be&ab_channel=Singularity2045
+
 ## 📷 Presentation Slides: 
 
 https://docs.google.com/presentation/d/1HV73K2lnuzfmi5FZIEtFoYzBK6tn95W-jIeFuBpkRb0/edit?usp=sharing
