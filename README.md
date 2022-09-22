@@ -98,7 +98,7 @@ Skale (????????),
 
 ## 📹 Video presentation:
 
-https://www.youtube.com/watch?v=Wa6Rxjkdzpo&feature=youtu.be&ab_channel=Singularity2045
+https://www.youtube.com/watch?v=9xxfwd6OOF0&ab_channel=Singularity2045
 
 ## 📷 Presentation Slides: 
 
