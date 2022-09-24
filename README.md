@@ -91,12 +91,6 @@ Shardeum Liberty 2.0 and Ethereum Goerli [some contracts need EIP-2930 accessLis
 https://explorer.liberty20.shardeum.org/account/0x9e5fb5182000b8b21b16d62fc2d04148613ca7b1?page=1
 https://goerli.etherscan.io/tx/0x85c213f0f417e7b3a387300706d8404f15e81e934ae89871f2cd54805f86b66d
 
-🔴
-
-Skale (????????),
-
-🔴
-
 ## 📹 Video presentation:
 
 https://www.youtube.com/watch?v=9xxfwd6OOF0&ab_channel=Singularity2045
