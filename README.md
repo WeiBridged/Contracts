@@ -93,7 +93,7 @@ https://goerli.etherscan.io/tx/0x85c213f0f417e7b3a387300706d8404f15e81e934ae8987
 
 ## 📹 Video presentation:
 
-https://www.youtube.com/watch?v=9xxfwd6OOF0&ab_channel=Singularity2045
+https://www.youtube.com/watch?v=y6jnH1nAi6M&ab_channel=Singularity2045
 
 ## 📷 Presentation Slides: 
 
