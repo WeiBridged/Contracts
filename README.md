@@ -93,12 +93,11 @@ https://goerli.etherscan.io/tx/0x85c213f0f417e7b3a387300706d8404f15e81e934ae8987
 
 ## 📹 Video presentation:
 
-https://www.youtube.com/watch?v=y6jnH1nAi6M&ab_channel=Singularity2045
+https://www.youtube.com/watch?v=CDvfHBMuirQ&ab_channel=Singularity2045
 
 ## 📷 Presentation Slides: 
 
 https://docs.google.com/presentation/d/1HV73K2lnuzfmi5FZIEtFoYzBK6tn95W-jIeFuBpkRb0/edit?usp=sharing
-
 
 ## Hardhat Testing
 
